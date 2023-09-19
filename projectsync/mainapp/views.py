@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import User
+from .models import User,Student,University
 from .forms import UserForm
 # Create your views here.
 
@@ -11,6 +11,7 @@ def register(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         #user=User()
+        role = request.POST.get('role')
         user_form=UserForm(data=request.POST)
         if user_form.is_valid():
             userc =user_form.save()
