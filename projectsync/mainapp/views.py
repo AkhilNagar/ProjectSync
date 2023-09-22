@@ -24,7 +24,12 @@ def user_login(request):
             else:
                 if user.check_password(password):
                     login(request,user)
-                    return render(request, 'home.html')
+                    
+                    if Student.objects.filter(user=user).exists():
+                        return redirect('explore')
+                    else:
+                        return redirect('univhome')
+                    
         
         if "univsignup" in request.POST:
             print("Entered Univ Signup")
@@ -72,3 +77,11 @@ def explore(request):
 # This will be replaced once the upload projects button is created
 def uploadProjects(request):
     return render(request, 'uploadForm.html')
+def univhome(request):
+    # If button = accept:
+    #       database isapproved=true;
+    # if button = decline:
+    #       remove project from db;
+    # Query database for all projects that have isapproved=false
+    # Send it to front end
+    return render(request,'univhome.html')

@@ -1,0 +1,123 @@
+{% csrf_token %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Approvals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .student-request {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+
+        .student-request h2 {
+            margin: 0;
+        }
+
+        .student-request p {
+            margin: 10px 0;
+        }
+
+        .student-request .request-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Styles for the accept and reject buttons */
+        .action-buttons {
+            display: flex;
+        }
+
+        .accept-button,
+        .reject-button {
+            background-color: #4CAF50; /* Green for accept */
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .reject-button {
+            background-color: #FF5733; /* Red for reject */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Student Profile</h1>
+    </header>
+    <div class="container">
+        <!-- Student Request 1 -->
+        <div class="student-request">
+            <div class="request-details">
+                <div>
+                    <h2>John Doe</h2>
+                    <p>Computer Science Student</p>
+                    <p>Email: john@example.com</p>
+                </div>
+            </div>
+            <p>Project Name: Project 1</p>
+            <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>GitHub Repository: <a href="https://github.com/user/project1">https://github.com/user/project1</a></p>
+            <p>Request Date and Time: April 15, 2023, 10:30 AM</p>
+            <p>Plagiarism Score: 4</p>
+            <div class="action-buttons">
+                <button class="accept-button">✔ Accept</button>
+                <button class="reject-button">✘ Reject</button>
+            </div>
+        </div>
+
+        <!-- Student Request 2 -->
+        <div class="student-request">
+            <div class="request-details">
+                <div>
+                    <h2>Jane Smith</h2>
+                    <p>Engineering Student</p>
+                    <p>Email: jane@example.com</p>
+                </div>
+            </div>
+            <p>Project Name: Project 2</p>
+            <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>GitHub Repository: <a href="https://github.com/user/project2">https://github.com/user/project2</a></p>
+            <p>Request Date and Time: April 16, 2023, 2:45 PM</p>
+            <p>Plagiarism Score: 4</p>
+            <div class="action-buttons">
+                <button class="accept-button">✔ Accept</button>
+                <button class="reject-button">✘ Reject</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
