@@ -198,38 +198,6 @@ footer.row {
   color: #df3778;
 }
 
-/* Codepen and Github SVG Buttons */
-.iconBtn > img {
-  margin-right: 6px;
-  margin-top: -3px;
-  width: 18px;
-}
-.iconBtn:focus > img,
-.iconBtn:hover > img {
-  -webkit-filter: brightness(10);
-  filter: brightness(10);
-}
-
-/* Social Icons */
-.social {
-  display: inline-block;
-  transition: box-shadow 0.2s ease-in-out,
-              transform 0.2s ease-in-out;
-  height: 36px;
-  margin-left: 3px;
-  width: 36px;
-}
-.social:focus,
-.social:hover {
-  background-color: transparent;
-}
-.social + .social {
-  margin-left: 9px;
-}
-.social img {
-  max-width: 100%;
-}
-
 /* =====================
   Icons and Images
 ===================== */
@@ -291,11 +259,6 @@ footer.row {
   background-color: #fffefd;
   position: relative;
 }
-.bg-pink {
-  background-color: #df3778;
-  color: #fffefd;
-  position: relative;
-}
 .bg-star-y {
   background: #ffce3f url(https://github.com/tiffanyadu/portfolio/blob/master/assets/imgs/yellow-star.png?raw=true) fixed;
   background-size: 60px;
@@ -305,16 +268,6 @@ footer.row {
   background: #1b263b url(https://github.com/tiffanyadu/portfolio/blob/master/assets/imgs/green-star.png?raw=true) fixed;
   background-size: 60px;
   color: #fffefd;
-}
-.bg-honeycomb {
-  background: #fffefd url(https://github.com/tiffanyadu/portfolio/blob/master/assets/imgs/honeycomb.png?raw=true) fixed;
-  background-size: 24px;
-}
-.gray {
-  color: #9da6a4;
-}
-.dashed {
-  border-top: 2px dashed #ffce3f;
 }
 /*** Contact Form ***/
 .checkbox {
@@ -348,42 +301,6 @@ footer.row {
   section .row [class*=" col-sm-"] + [class*=" col-sm-"] {
     margin-top: 30px;
   }
-  /*** Jumbotron ***/
-  .jumbotron .logo {
-    max-width: 120px;
-  }
-  /*** Mobile Nav ***/
-  .navbar-toggle {
-    height: 36px;
-    margin-bottom: 22px;
-    margin-top: 22px;
-  }
-  .navbar-toggle .glyphicon {
-    color: #6b7a78;
-    top: -2px;
-  }
-  .navbar-default .navbar-toggle:focus,
-  .navbar-default .navbar-toggle:hover {
-    background-color: transparent;
-    border-color: #29a598;
-  }
-  .navbar-default .navbar-toggle .active {
-    color: #29a598;
-  }
-  .navbar-collapse {
-    background-color: #fffefd;
-    background-color: rgba(255,254,253,0.97);
-    border: none;
-    box-shadow: 0 2px 8px rgba(8,33,30,0.2);
-    left: 0;
-    position: absolute;
-    right: 0;
-    text-align: center;
-  }
-  .navbar-collapse .outline.pink {
-    margin: 15px auto 30px;
-    max-width: 150px;
-  }
   /*** Portfolio ***/
   #projects .carousel-control {
     margin-top: 300%;
@@ -391,4 +308,54 @@ footer.row {
   #projects .card {
     text-align: center;
   }
+}
+
+/* Comment Section */
+
+.comments h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.comment {
+    list-style-type: none;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.username {
+    color: #1B263B;
+    margin-right: 5px;
+}
+
+.timestamp {
+    color: #555;
+}
+
+.comment-text {
+    font-size: 16px;
+}
+.comment-form {
+    margin-top: 20px;
+}
+
+.comment-form input,
+.comment-form textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.comment-form textarea {
+    height: 100px;
 }

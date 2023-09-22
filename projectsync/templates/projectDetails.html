@@ -107,6 +107,37 @@
             </div>
           </div>
           <!-- /.row -->
+          <div row="row">
+            <section class="comment-section">
+              <h2>Comments</h2>
+              <ul class="comment-list">
+                <li class="comment">
+                  <div class="comment-header">
+                    <span class="username">Yashvi:</span>
+                    <span class="timestamp">22-09-2023</span>
+                  </div>
+                  <p class="comment-text">Hello</p>
+                </li>
+                <li class="comment">
+                  <div class="comment-header">
+                    <span class="username">Otis:</span>
+                    <span class="timestamp">22-09-2023</span>
+                  </div>
+                  <p class="comment-text">Great</p>
+                </li>
+              </ul>
+              <form action="/submit-comment" method="post" class="comment-form">
+                <textarea name="comment" placeholder="Your comment"></textarea>
+                <button
+                  type="button"
+                  class="btn td-btn outline green mb-30"
+                  data-dismiss="modal"
+                >
+                  Submit
+                </button>
+              </form>
+            </section>
+          </div>
           <div class="modal-footer center">
             <button
               type="button"
