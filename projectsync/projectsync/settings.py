@@ -17,8 +17,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
-AUTH_USER_MODEL = 'mainapp.CustomUser'
-AUTHENTICATION_BACKENDS = ['mainapp.backends.EmailBackend']
+#AUTH_USER_MODEL = 'mainapp.User'
+#AUTHENTICATION_BACKENDS = ['mainapp.backends.EmailBackend']
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 

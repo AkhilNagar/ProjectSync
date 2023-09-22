@@ -4,7 +4,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Form</title>
+  <title>ProjectSync</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel="stylesheet" href="{% static 'css/login.css' %}">
 
@@ -15,7 +15,7 @@
 
 	<form method="POST">
 		{%csrf_token %}
-		<input type="text" name="firstName" value="" placeholder="Full Name">
+		<input type="text" name="fullname" value="" placeholder="Full Name">
 		<input type="text" name="univ" value="" placeholder="University Name">
 		<input type="email" name="email" value="" placeholder="Email">
 		<input type="password" name="password" value="" placeholder="Password">

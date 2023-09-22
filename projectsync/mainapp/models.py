@@ -1,23 +1,24 @@
 from django.db import models
 
 
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
-class CustomUser(AbstractUser):
-    email = models.EmailField(unique=True)
+def __str__(self):
+    #username=self.user.username
+    return self.user.username
+
 
 
 class University(models.Model):
-    user = models.OneToOneField(CustomUser,on_delete=models.CASCADE,default=None)
+    user = models.OneToOneField(User,on_delete=models.CASCADE,default=None)
     name= models.CharField(max_length=300,default=None)
     def __str__(self):
         return self.name
 
 class Student(models.Model):
-    user = models.OneToOneField(CustomUser,on_delete=models.CASCADE,default=None)
+    user = models.OneToOneField(User,on_delete=models.CASCADE,default=None)
     college = models.OneToOneField(University,on_delete=models.CASCADE,default=None)
-    major = models.CharField(max_length=300,default=None)
     #All information regarding the user
     def __str__(self):
         return self.user.username

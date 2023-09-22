@@ -1,7 +1,7 @@
 from django import forms
-from .models import CustomUser
+from .models import User
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     class Meta():
-        model= CustomUser
-        fields = ('email','password')
+        model= User
+        fields = ('username','email','password')

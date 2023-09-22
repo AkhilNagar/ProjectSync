@@ -6,7 +6,7 @@ $(".outline").on('click', function(e){
       "right": null,
       "left": "440px"
     }, "swing");
-		$("input[name*='Name']").fadeOut("slow").slideUp("slow");
+		$("input[name*='name']").fadeOut("slow").slideUp("slow");
     $("input[name*='univ']").fadeOut("slow").slideUp("slow");
 		$(".formButton").text('Login');
     $(".formButton").attr("name","login");
@@ -17,7 +17,7 @@ $(".outline").on('click', function(e){
       "left": null,
 			"right": "440px"
     });
-		$("input[name*='Name']").fadeIn("slow").slideDown("slow");
+		$("input[name*='name']").fadeIn("slow").slideDown("slow");
     $("input[name*='univ']").fadeIn("slow").slideDown("slow");
 		$(".formButton").text('Student SignUp');
     $(".formButton").attr("name","studentsignup");
@@ -29,7 +29,7 @@ $(".outline").on('click', function(e){
 			"right": "440px"
     });
 		$("input[name*='univ']").fadeIn("slow").slideDown("slow");
-    $("input[name*='Name']").fadeOut("slow").slideUp("slow");
+    $("input[name*='name']").fadeOut("slow").slideUp("slow");
 		$(".formButton").text('Univ Sign Up');
     $(".formButton").attr("name","univsignup");
   }
