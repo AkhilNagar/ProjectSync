@@ -68,3 +68,7 @@ def user_logout(request):
 
 def explore(request):
     return render(request, 'exploreProjects.html')
+
+# This will be replaced once the upload projects button is created
+def uploadProjects(request):
+    return render(request, 'uploadForm.html')
