@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Project Form</title>
+    <!-- Add Bootstrap CSS CDN link -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Custom styles */
+        @import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
+
+        /* Apply Roboto font to the body */
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 50; /* You can adjust the font weight if needed */
+            color: #1B263B;
+            background-color: #415A77;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            font-weight: 500;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        .tag {
+            background-color: #1B263B;
+            color: #fff;
+            padding: 5px 10px;
+            margin-right: 5px;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .delete-tag {
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .form-check-label {
+            color: #415A77;
+        }
+
+        /* Remove border-radius for input boxes */
+        .form-control {
+            border: none;
+            border-bottom: 1px solid #ccc;
+            border-radius: 0;
+            transition: border-color 0.3s, box-shadow 0.3s; /* Add box-shadow transition */
+        }
+
+        /* Highlight the bottom border in navy blue on focus */
+        .form-control:focus {
+            border-color: #1B263B; /* Change border color to #1B263B on focus */
+            box-shadow: none; /* Remove box-shadow on focus */
+        }
+
+        /* Customize submit button */
+        .btn-submit {
+            background-color: #1B263B;
+            color: #fff;
+            border: none;
+            border-radius: 0;
+            padding: 10px 20px;
+            transition: background-color 0.3s; /* Add background-color transition */
+        }
+
+        /* Lighten the button on hover */
+        .btn-submit:hover {
+            background-color: #33415A; /* Adjust the color as needed */
+            color: #fff;
+        }
+
+        /* Change the checkbox color when checked */
+        .form-check-input[type="checkbox"]:checked {
+            background-color: #1B263B;
+            border-color: #1B263B;
+        }
+
+        /* Add this CSS to style the collaborator input wrapper */
+        .collaborator-input-wrapper {
+            position: relative;
+            width: 100%; /* Set the width to 100% */
+        }
+
+        /* Remove width style from the dropdown */
+        #collaboratorDropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            display: none;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 0.25rem;
+            width: 100%; /* Set the width to 100% */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Upload Project Form</h1>
+        <form id="uploadForm">
+            <div class="form-group">
+                <label for="projectName">Project Name *</label>
+                <input type="text" class="form-control" id="projectName" required placeholder="Example: Face Mask Detection">
+            </div>
+
+            <div class="form-group">
+                <label for="projectSummary">Project Summary</label>
+                <textarea class="form-control" id="projectSummary" rows="4" placeholder="Example: Neural Style Transfer is a technique in deep learning that combines the content of one image with the style of another image to create a new, stylized image. This technique uses a convolutional neural network (CNN) to extract the features of the content image and style image separately and then optimizes a third image to minimize both the content loss and the style loss. By minimizing both losses, the algorithm generates a new image that has the same content as the content image but with the style of the style image.
+                "></textarea>
+            </div>  
+
+            <div class="form-group">
+                <label for="collegeName">College Name *</label>
+                <select class="form-control" id="collegeName" required>
+                    <option value="KJ">KJ</option>
+                    <option value="DJ">DJ</option>
+                    <option value="DY">DY</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Project Domain Tags *</label>
+                <div id="tagCheckboxes">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="AI/ML" value="AI/ML">
+                        <label class="form-check-label" for="AI/ML">AI/ML</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="Web Dev" value="Web Dev">
+                        <label class="form-check-label" for="Web Dev">Web Dev</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="NLP" value="NLP">
+                        <label class="form-check-label" for="NLP">NLP</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="Cloud" value="Cloud">
+                        <label class="form-check-label" for="Cloud">Cloud</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tag-list" id="selectedTags"></div>
+
+            <div class="collaborator-input-wrapper">
+                <label>Collaborators *</label>
+                <input type="text" class="form-control" id="projectCollaborators" placeholder="Example: ishika@gmail.com, otis@netflix.com" oninput="searchCollaborators()">
+                <div id="collaboratorDropdown" class="position-absolute bg-light border" style="width: 100%; display: none;"></div>
+            </div>
+
+            <!-- New div for collaborator tags -->
+            <div class="tag-list" id="collaboratorTags"></div>
+
+            <div class="form-group">
+                <label for="githubLink">Github Link *</label>
+                <input type="text" class="form-control" id="githubLink" required placeholder="Example: https://github.com/<username>/<repo name>">
+            </div>
+
+            <button type="submit" class="btn btn-submit">Submit Project Details</button>
+        </form>
+    </div>
+
+    <!-- Add Bootstrap JS and jQuery CDN links (if needed) -->
+        
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+        <script>
+            const form = document.getElementById('uploadForm');
+            const tagCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            const selectedTags = document.getElementById('selectedTags');
+            const collaboratorTags = document.getElementById('collaboratorTags'); // New collaborator tags div
+
+            tagCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateSelectedTags);
+            });
+
+            function updateSelectedTags() {
+                selectedTags.innerHTML = '';
+                tagCheckboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        const tag = document.createElement('div');
+                        tag.classList.add('tag');
+                        tag.textContent = checkbox.value;
+                        const deleteIcon = document.createElement('span');
+                        deleteIcon.textContent = 'X';
+                        deleteIcon.classList.add('delete-tag');
+                        deleteIcon.addEventListener('click', () => {
+                            checkbox.checked = false;
+                            updateSelectedTags();
+                        });
+                        tag.appendChild(deleteIcon);
+                        selectedTags.appendChild(tag);
+                    }
+                });
+            }
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                // You can access form values here and submit them to your server
+            });
+
+            // Function to search for collaborators
+            function searchCollaborators() {
+                const input = document.getElementById('projectCollaborators');
+                const inputValue = input.value.trim();
+                const collaboratorDropdown = document.getElementById('collaboratorDropdown');
+                const collaboratorList = ['ishika@gmail.com', 'otis@netflix.com']; // List of collaborators
+
+                // Clear previous results
+                collaboratorDropdown.innerHTML = '';
+
+                if (inputValue.length === 0) {
+                    collaboratorDropdown.style.display = 'none';
+                    return;
+                }
+
+                const matchingCollaborators = collaboratorList.filter(collaborator => {
+                    return collaborator.includes(inputValue);
+                });
+
+                if (matchingCollaborators.length > 0) {
+                    matchingCollaborators.forEach(match => {
+                        const item = document.createElement('div');
+                        item.textContent = match;
+                        item.classList.add('dropdown-item');
+                        item.addEventListener('click', () => {
+                            input.value = ''; // Clear the input after selecting a collaborator
+                            collaboratorDropdown.style.display = 'none';
+                            addCollaboratorTag(match); // Add the collaborator as a tag
+                        });
+                        collaboratorDropdown.appendChild(item);
+                    });
+
+                    collaboratorDropdown.style.display = 'block';
+                } else {
+                    collaboratorDropdown.style.display = 'none';
+                }
+            }
+
+            // Function to add a collaborator as a tag
+            function addCollaboratorTag(collaborator) {
+                const tag = document.createElement('div');
+                tag.classList.add('tag');
+                tag.textContent = collaborator;
+                const deleteIcon = document.createElement('span');
+                deleteIcon.textContent = 'X';
+                deleteIcon.classList.add('delete-tag');
+                deleteIcon.addEventListener('click', () => {
+                    tag.remove(); // Remove the collaborator tag
+                });
+                tag.appendChild(deleteIcon);
+                collaboratorTags.appendChild(tag); // Append the collaborator tag to the collaboratorTags div
+            }
+
+            // Close the dropdown when clicking outside
+            window.addEventListener('click', function (event) {
+                if (!event.target.matches('#projectCollaborators')) {
+                    const dropdown = document.getElementById('collaboratorDropdown');
+                    if (dropdown.style.display === 'block') {
+                        dropdown.style.display = 'none';
+                    }
+                }
+            });
+        </script>
+</body>
+</html>

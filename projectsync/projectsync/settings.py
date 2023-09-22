@@ -17,7 +17,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
-
+#AUTH_USER_MODEL = 'mainapp.User'
+#AUTHENTICATION_BACKENDS = ['mainapp.backends.EmailBackend']
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -116,18 +117,16 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = '/static/'
-
-# Specify the directories where Django will look for static files
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+# https://docs.djangoproject.com/en/4.2/howto/static-files
 
 # Define the directory where collected static files will be placed
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Or specify another path if desired
 
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
