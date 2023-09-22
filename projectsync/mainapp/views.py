@@ -66,24 +66,5 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('home'))
 
-def register(request):
-    if request.method == "POST":
-        print("REGISTERED")
-        fullname = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        #user=User()
-        role = request.POST.get('role')
-        user_form=UserForm(data=request.POST)
-        if user_form.is_valid():
-            userc =user_form.save()
-            userc.set_password(userc.password)
-            userc.save()
-        print(username)
-        print(email)
-    
-    user_form=UserForm()
-    return render(request, 'home.html', {'user_form':user_form})    
-
 def explore(request):
     return render(request, 'exploreProjects.html')
