@@ -1,0 +1,128 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Project Details</title>
+    <title>Tiffany Du | Designer &amp; Front-End Developer</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Unica+One%7CWork+Sans:300,600"
+      rel="stylesheet"
+    />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="{% static 'css/projectDetails.css' %}" />
+  </head>
+  <body>
+    <div class="modal-dialog wide" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title text-center" id="tmsTitle">Project Title</h2>
+        </div>
+        <!-- /.modal-header -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-12 bg-star-g"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 text-center">
+              <h4>University</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-10 col-sm-offset-1 col-lg-6 col-lg-offset-0">
+              <p>
+                Too Much Sauce (TMS) is a side project of motion graphic
+                designer Ryan Bechtel, where he challenges himself to create
+                brutalist designs. The purpose of the TMS website is to host his
+                collection of animated GIFs, which were originally shared as
+                Instagram stories.
+              </p>
+              <p class="mb-30">
+                Ryan really liked the bold, high-contrast look of Complex.com, a
+                music and pop culture media/news website, so that's what
+                inspired the design of this project. The color palette is mainly
+                black and white with splashes of magenta and neon green from the
+                TMS brand. It was built with the latest version of Bootstrap 4
+                and uses a small JavaScript library, Gifffer.js, to prevent the
+                animated GIFs from autoplaying when the page loads.
+              </p>
+            </div>
+            <div
+              class="col-sm-10 col-sm-offset-1 col-lg-6 col-lg-offset-0 md-center"
+            >
+              <p><strong>Contributors:</strong></p>
+              <ul class="contributors">
+                <li>
+                  <img
+                    src="https://avatars.githubusercontent.com/u/1?v=4"
+                    alt="John Doe"
+                  />
+                  <a href="https://github.com/1">John Doe</a>
+                </li>
+                <li>
+                  <img
+                    src="https://avatars.githubusercontent.com/u/2?v=4"
+                    alt="Jane Doe"
+                  />
+                  <a href="https://github.com/2">Jane Doe</a>
+                </li>
+              </ul>
+
+              <p><strong>Tags:</strong></p>
+              <p class="mb-30">
+                <span class="label tag">Webdev</span>
+                <span class="label tag">AL</span>
+                <span class="label tag">ML</span>
+              </p>
+              <p><strong>Technologies Used:</strong></p>
+              <p class="mb-30">
+                <span class="label tag">Bootstrap 4</span>
+                <span class="label tag">Responsive Design</span>
+                <span class="label tag">HTML5</span>
+                <span class="label tag">CSS3</span>
+                <span class="label tag">jQuery</span>
+                <span class="label tag">Gifffer.js</span>
+              </p>
+              <a
+                class="btn td-btn outline green mb-30"
+                href=""
+                target="_blank"
+                title="Project Title"
+                ><span class="glyphicon glyphicon-link"></span> Visit Live
+                Site</a
+              >
+              <a
+                class="btn td-btn outline green mb-30"
+                href=""
+                target="_blank"
+                title="Project Title"
+                ><span class="glyphicon glyphicon-plus"></span> Follow</a
+              >
+            </div>
+          </div>
+          <!-- /.row -->
+          <div class="modal-footer center">
+            <button
+              type="button"
+              class="btn td-btn outline green mb-30"
+              data-dismiss="modal"
+            >
+              Close Project
+            </button>
+          </div>
+          <!-- /.modal-footer -->
+        </div>
+        <!-- /.modal-body -->
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </body>
+  <!-- <script src="script.js"></script> -->
+</html>

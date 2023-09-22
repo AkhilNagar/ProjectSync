@@ -3,6 +3,9 @@ from .models import CustomUser,Student,University
 from .forms import UserForm
 # Create your views here.
 
+def projectDetails(request):
+    return render(request, 'projectDetails.html')
+
 def login(request):
     if request.method == "POST":
         print("it is a post")
