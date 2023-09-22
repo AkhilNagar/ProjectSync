@@ -39,4 +39,7 @@ def register(request):
             # print(email)
         
     user_form=UserForm()
-    return render(request, 'home.html', {'user_form':user_form})
+    return render(request, 'home.html', {'user_form':user_form})    
+
+def explore(request):
+    return render(request, 'exploreProjects.html')
