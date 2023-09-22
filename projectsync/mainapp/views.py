@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
-from .models import User,Student,University
+from .models import User,Student,University,Project
 from .forms import UserForm
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse, HttpResponseRedirect
@@ -67,7 +67,8 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('home'))
 
 def explore(request):
-    return render(request, 'exploreProjects.html')
+    projects = Project.objects.all()
+    return render(request, 'exploreProjects.html', {'projects' : projects})
 
 # This will be replaced once the upload projects button is created
 def uploadProjects(request):
