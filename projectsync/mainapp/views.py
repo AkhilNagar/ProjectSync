@@ -21,3 +21,7 @@ def register(request):
         print(email)
     user_form=UserForm()
     return render(request, 'registration/register.html', {'user_form':user_form})
+
+
+def explore(request):
+    return render(request, 'exploreProjects.html')
