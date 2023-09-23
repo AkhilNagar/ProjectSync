@@ -7,7 +7,6 @@ class UserForm(forms.ModelForm):
         model= User
         fields = ('username','email','password')
 
-
 class ProjectFilterForm(forms.Form):
     tag = forms.ModelChoiceField(queryset = Tags.objects.all(), empty_label="All tags", required=False)
     search = forms.CharField(max_length=100, required=False)

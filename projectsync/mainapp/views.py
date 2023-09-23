@@ -1,13 +1,14 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
 from .forms import UserForm, ProjectFilterForm
-from .models import User, Student, University, Tags, Project, Comment
+from .models import User, Student, University, Tags, Project, Comment, Feed
 from .models import Follow
-
+from django.db.models import DateTimeField
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.utils import timezone
 #from .summarizer import summarize_readme
 # Create your views here.
 
@@ -16,11 +17,15 @@ def projectDetails(request, pk):
     contributors = project.contributors.all()
     tags = project.tags.all()
     current_user = request.user
+    print(type(current_user))
     isContributor = False
     for contributor in contributors:
-        if current_user == contributor:
+        print(type(contributor))
+        if current_user == contributor.user:
             isContributor = True
+            print(1)
             break
+    print(isContributor)
     comments = Comment.objects.filter(project=project)
     if request.method == "POST":
         comment = request.POST.get('comment')
@@ -30,7 +35,20 @@ def projectDetails(request, pk):
     
     return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags, 'comments': comments, 'current_user': current_user, 'isContributor': isContributor})
     
-
+def create_announcement(request, project_id):
+    project = Project.objects.get(pk=project_id)
+    contributors = project.contributors.all()
+    tags = project.tags.all()
+    current_user = request.user
+    isContributor = True
+    comments = Comment.objects.filter(project=project)
+    if request.method == 'POST':
+        message = request.POST.get('announcement_message')
+        if message:
+            Feed.objects.create(project=project, message=message)
+            return redirect('projectDetails', pk = project_id)
+        
+    return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags, 'comments': comments, 'current_user': current_user, 'isContributor': isContributor})
 
 def studentprofile(request):
     
