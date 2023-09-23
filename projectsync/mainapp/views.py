@@ -243,50 +243,47 @@ def follow(request,pk):
     return redirect('feed.html')
 
 def feed(request):
-    #Top 3 feed items
-    feedlist=[]
-    feed_dict={}
-    project_dict={}
+    feed_dict = {}
     student = Student.objects.get(user=request.user)
     follow = Follow.objects.filter(student=student)
-    for i in follow:
-        # i is an object of class follow <student,project>
-        feed= Feed.objects.filter(project=i.project).order_by('date_created').reverse()[:3]
-        #feed is [feed<p1>,feed<p1>,feed<p2>]
-        for j in feed:
-            # j is an object of class feed with project i
-            if j.project not in feed_dict:
-                feed_dict[j.project] = []
-            feed_dict[j.project].append((j.message,j.date_created))
-            project_dict[j.project]=j.project.pk
-    context={
-        "feed": feed_dict, "project_dict":project_dict
+
+    for follow_item in follow:
+        project = follow_item.project
+        feed_items = Feed.objects.filter(project=project).order_by('-date_created')[:3]
+
+        # Create a list to store feed data for this project
+        project_feed = []
+
+        for feed_item in feed_items:
+            project_feed.append((feed_item.message, feed_item.date_created))
+
+        # Add the project primary key and feed data to the feed_dict
+        feed_dict[project.pk] = {
+            'name': project.name,
+            'feed': project_feed,
+        }
+    context = {
+        "feed_dict": feed_dict
     }
-    # Access the values this way #delete after use
-    for key,value in feed_dict.items():
-        print("Name: ",key," value: ",value)
 
-    return render(request,'feed.html', context)
-
+    return render(request, 'feed.html', context)
 
 
 def updates(request,pk):
     feed_dict={}
     project = Project.objects.get(pk=pk)
     student = Student.objects.get(user=request.user)
-    follow = Follow.objects.filter(student=student)
-    for i in follow:
-        # i is an object of class follow <student,project>
-        feed= Feed.objects.filter(project=i.project).order_by('date_created').reverse()
-        #feed is [feed<p1>,feed<p1>,feed<p2>]
-    context={
-        "feed": feed_dict
+    feed = Feed.objects.filter(project=project).order_by('-date_created')[:3]
+
+    context = {
+        "feed": feed,
+        "project": project,
     }
-    # Access the values this way #delete after use
-    for key,value in feed_dict.items():
-        print("Name: ",key.pk," value: ",value)
+
+    return render(request, 'updates.html', context)
+
     return render(request,'updates.html', {"feed":feed,"project":project})
-    return render(request,'update.html', context)
+    # return render(request,'update.html', context)
 
 @csrf_exempt
 def webhook(request):    
