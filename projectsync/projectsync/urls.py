@@ -27,5 +27,6 @@ urlpatterns = [
     path('explore/', views.explore, name="explore"),
     path('projectDetails/',views.projectDetails, name="projectDetails"),
     path('uploadProjects/',views.uploadProjects, name="uploadProjects"),
-    path('univhome/', views.univhome, name="univhome")
+    path('univhome/', views.univhome, name="univhome"),
+    path('studentprofile/',views.studentprofile,name="studentprofile")
 ]
