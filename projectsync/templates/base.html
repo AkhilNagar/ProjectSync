@@ -74,7 +74,10 @@
     <input type="search" placeholder="Search">
   </div>
   <div class="navbar-left">
-    <a href="{% url 'studentprofile' %}">Profile</a>
+    {% if isUniv %}
+    <a href="{% url 'univhome' %}">Approvals</a>
+    {% endif %}
+    <a href="{% url 'studentprofile' %}">Hi {{ user.username }}!</a>
     <a href="{% url 'logout' %}">Logout</a>
   </div>
 
@@ -86,7 +89,7 @@
     <input type="search" placeholder="Search">
   </div>
   <div class="navbar-left">
-    <a href="{% url 'studentprofile' %}">Profile</a>
+    {% comment %} <a href="{% url 'studentprofile' %}">Profile</a> {% endcomment %}
     <a href="{% url 'login' %}">Login/Register</a>
   </div>
 
