@@ -1,15 +1,19 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
 from .forms import UserForm, ProjectFilterForm
-from .models import User, Student, University, Tags, Project, Comment, Feed
-from .models import Follow
 from django.db.models import DateTimeField
+from .models import User, Student, University, Tags, Project, Comment, Follow, Feed
+from .forms import UserForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 #from .summarizer import summarize_readme
+from .summarizer import summarize_readme
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 # Create your views here.
 
 def projectDetails(request, pk):
@@ -237,5 +241,71 @@ def follow(request,pk):
     follow = Follow(student=student, project=project)
     follow.save()
     return redirect('feed.html')
+
 def feed(request):
-    return render(request,'feed.html')
+    #Top 3 feed items
+    feedlist=[]
+    student = Student.objects.get(user=request.user)
+    follow = Follow.objects.filter(student=student)
+    for i in follow:
+        # i is an object of class follow
+        feed= Feed.objects.filter(project=i.project).order_by('date_created').reverse()[:1]
+        feedlistperproj=[]
+        for j in feed:
+            # j is an object of class feed with project i
+            feedlistperproj.append(j)
+        feedlist.append(feedlistperproj)
+
+    context={
+        "feed": feedlist
+    }
+    # Access the values this way #delete after use
+    for i in feedlist:
+        for j in i:
+            print("projname",j.project.name)
+            print("message",j.message)
+
+    return render(request,'feed.html', context)
+
+def knowmore(request,pk):
+    feedlist=[]
+    student = Student.objects.get(user=request.user)
+    follow = Follow.objects.filter(student=student)
+    for i in follow:
+        # i is an object of class follow
+        feed= Feed.objects.filter(project=i.project).order_by('date_created').reverse()
+        feedlistperproj=[]
+        for j in feed:
+            # j is an object of class feed with project i
+            feedlistperproj.append(j)
+        feedlist.append(feedlistperproj)
+
+    context={
+        "feed": feedlist
+    }
+    return render(request,'update.html', context)
+
+@csrf_exempt
+def webhook(request):    
+    # Get the payload of the webhook request.
+    data = json.loads(request.body.decode('utf-8'))
+    webhook_msg = ""
+    if 'pusher' in data and 'name' in data['pusher']:
+            pusher_name = data['pusher']['name']
+            repository_name = data['repository']['name']
+            commits_count = len(data['commits'])
+            message = f"New commit in the '{repository_name}' repository by {pusher_name}. {commits_count} commit(s) made."
+            webhook_msg += message
+            print(message)  # You can replace this with any action you want to take when a commit is made.
+
+            # Print commit messages
+            commits = data.get("commits", [])
+            for commit in commits:
+                commit_message = commit.get("message", "")
+                print(f"Commit Message: {commit_message}.")
+                webhook_msg += f"Commit Message: {commit_message}."
+    
+    project = Project.objects.get(name="Project1")
+    feed_obj = Feed(project=project, message=webhook_msg)
+    feed_obj.save()
+    return JsonResponse({"message": "Received"})
