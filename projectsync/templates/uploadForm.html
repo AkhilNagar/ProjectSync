@@ -1,6 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Project Form</title>
@@ -114,54 +115,47 @@
             width: 100%; /* Set the width to 100% */
         }
     </style>
-</head>
-<body>
+
     <div class="container mt-5">
         <h1 class="mb-4">Upload Project Form</h1>
-        <form id="uploadForm">
+        <form id="uploadForm" method="POST">
+            {% csrf_token %}
             <div class="form-group">
                 <label for="projectName">Project Name *</label>
-                <input type="text" class="form-control" id="projectName" required placeholder="Example: Face Mask Detection">
+                <input type="text" class="form-control" id="projectName"  placeholder="Example: Face Mask Detection" name="project_title" required>
             </div>
 
             <div class="form-group">
                 <label for="projectSummary">Project Summary</label>
-                <textarea class="form-control" id="projectSummary" rows="4" placeholder="Example: Neural Style Transfer is a technique in deep learning that combines the content of one image with the style of another image to create a new, stylized image. This technique uses a convolutional neural network (CNN) to extract the features of the content image and style image separately and then optimizes a third image to minimize both the content loss and the style loss. By minimizing both losses, the algorithm generates a new image that has the same content as the content image but with the style of the style image.
+                <textarea class="form-control" id="projectSummary" rows="4" name="project_summary" placeholder="Example: Neural Style Transfer is a technique in deep learning that combines the content of one image with the style of another image to create a new, stylized image. This technique uses a convolutional neural network (CNN) to extract the features of the content image and style image separately and then optimizes a third image to minimize both the content loss and the style loss. By minimizing both losses, the algorithm generates a new image that has the same content as the content image but with the style of the style image.
                 "></textarea>
             </div>  
 
             <div class="form-group">
                 <label for="collegeName">College Name *</label>
-                <select class="form-control" id="collegeName" required>
-                    <option value="KJ">KJ</option>
-                    <option value="DJ">DJ</option>
-                    <option value="DY">DY</option>
+                <select class="form-control" id="collegeName" name="uni_name" placeholder="Select your university" required>
+                    <option disabled selected value="">Select your university</option>  
+                    {% for uni in universities %}
+                    <option value="{{uni.name}}">{{uni.name}}</option>
+                    {% endfor %}
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Project Domain Tags *</label>
                 <div id="tagCheckboxes">
+                    {% for tag in domain_tags %}
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="AI/ML" value="AI/ML">
-                        <label class="form-check-label" for="AI/ML">AI/ML</label>
+                        <input type="checkbox" class="form-check-input" id="{{tag.name}}" value="{{tag.name}}" name="tags">
+                        <label class="form-check-label" for="{{tag.name}}">{{tag.name}}</label>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="Web Dev" value="Web Dev">
-                        <label class="form-check-label" for="Web Dev">Web Dev</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="NLP" value="NLP">
-                        <label class="form-check-label" for="NLP">NLP</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="Cloud" value="Cloud">
-                        <label class="form-check-label" for="Cloud">Cloud</label>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
 
             <div class="tag-list" id="selectedTags"></div>
+            
+            <div style="display: none" id="student_list" data-value="{{student_list}}"></div>
 
             <div class="collaborator-input-wrapper">
                 <label>Collaborators *</label>
@@ -171,10 +165,11 @@
 
             <!-- New div for collaborator tags -->
             <div class="tag-list" id="collaboratorTags"></div>
+            <input type="hidden" name="collaborator_list" id="collaboratorTagsInput" value="">
 
             <div class="form-group">
                 <label for="githubLink">Github Link *</label>
-                <input type="text" class="form-control" id="githubLink" required placeholder="Example: https://github.com/<username>/<repo name>">
+                <input type="text" class="form-control" name="github_link" id="githubLink"  placeholder="Example: https://github.com/<username>/<repo name>" required>
             </div>
 
             <button type="submit" class="btn btn-submit">Submit Project Details</button>
@@ -188,7 +183,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
         <script>
-            const form = document.getElementById('uploadForm');
+            
             const tagCheckboxes = document.querySelectorAll('input[type="checkbox"]');
             const selectedTags = document.getElementById('selectedTags');
             const collaboratorTags = document.getElementById('collaboratorTags'); // New collaborator tags div
@@ -217,17 +212,13 @@
                 });
             }
 
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-                // You can access form values here and submit them to your server
-            });
-
             // Function to search for collaborators
             function searchCollaborators() {
                 const input = document.getElementById('projectCollaborators');
                 const inputValue = input.value.trim();
                 const collaboratorDropdown = document.getElementById('collaboratorDropdown');
-                const collaboratorList = ['ishika@gmail.com', 'otis@netflix.com']; // List of collaborators
+                var collaboratorList = document.getElementById('student_list').getAttribute('data-value')// List of collaborators
+                collaboratorList = collaboratorList.split(',')
 
                 // Clear previous results
                 collaboratorDropdown.innerHTML = '';
@@ -270,9 +261,17 @@
                 deleteIcon.classList.add('delete-tag');
                 deleteIcon.addEventListener('click', () => {
                     tag.remove(); // Remove the collaborator tag
+                    updateCollaboratorTagsInput();
                 });
                 tag.appendChild(deleteIcon);
                 collaboratorTags.appendChild(tag); // Append the collaborator tag to the collaboratorTags div
+                updateCollaboratorTagsInput();
+            }
+
+            function updateCollaboratorTagsInput() {
+                const collaboratorTagsInput = document.getElementById('collaboratorTagsInput');
+                const tags = Array.from(collaboratorTags.children).map(tag => tag.textContent.slice(0, -1));
+                collaboratorTagsInput.value = tags.join(','); // Update the input value with comma-separated tags
             }
 
             // Close the dropdown when clicking outside
@@ -285,5 +284,5 @@
                 }
             });
         </script>
-</body>
-</html>
+
+        {% endblock %}

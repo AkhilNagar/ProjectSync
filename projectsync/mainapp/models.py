@@ -1,14 +1,11 @@
 from django.db import models
 
-
 from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
 def __str__(self):
     #username=self.user.username
     return self.user.username
-
-
 
 class University(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,default=None)
@@ -29,7 +26,6 @@ class Tags(models.Model):
         return self.name
 
 class Project(models.Model):
-    projectid = models.IntegerField(default=None)
     name = models.CharField(max_length=300,default=None)
     univ= models.ForeignKey(University, on_delete=models.CASCADE,default=None)
     contributors = models.ManyToManyField(Student,default=None,blank=True)

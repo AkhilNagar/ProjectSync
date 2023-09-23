@@ -1,14 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% csrf_token %}
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/studentprofile.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <title>Document</title>
-</head>
-<body>
 
     <div class="main-container">
         <!-- LEFT-CONTAINER -->
@@ -18,9 +18,9 @@
                 <div class="profile-picture big-profile-picture clear">
                     <img width="150px" alt="Anne Hathaway picture" src="C:\Users\Sanyukta\Desktop\SEMESTER - 7\SIH\profile\desktop wp.jpg" >
                 </div>
-                <h1 class="user-name">Anne Hathaway</h1>
+                <h1 class="user-name">{{ student_name }}</h1>
                 <div class="profile-description">
-                    <p class="scnd-font-color">Lorem ipsum dolor sit amet consectetuer adipiscing</p>
+                    <p class="scnd-font-color">{{college}}</p>
                 </div>
                 <ul class="profile-options horizontal-list">
                     <li><a class="comments" href="#40"><p>23<br>Followers</li></p></a>
@@ -66,21 +66,26 @@
                         </tr>
                       </thead>
                       <tbody>
+                        {% for project in projects %}
                         <tr>
                           <th scope="row">
                             
-                              <a href="#" class="avatar rounded-circle mr-3">
+                              <a href=""{% url 'projectDetails' pk=project.pk}" class="avatar rounded-circle mr-3">
                                 <img alt="Image placeholder" src="https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/img/theme/bootstrap.jpg">
                               </a>
                               <div class="media-body">
-                                <span class="mb-0 text-sm">ProjectsSync</span>
+                                <a href ="{% url 'projectDetails' pk=project.pk %}">
+                                    <span class="mb-0 text-sm">{{ project.name }}</span>
+                                </a>
                               </div>
                             
                           </th>
                           <td>
-                              <span class="badge badge-pill badge-info"><i class="icofont-ui-calendar icofont-1x"></i> &nbsp;React</span>&nbsp;&nbsp;</span><br><br>
-                              <span class="badge badge-pill badge-info"><i class="icofont-wall-clock icofont-1x"></i> &nbsp;ML</span>
-                          </td>
+                            {% for tag in project.tags.all %}
+                            <span class="badge badge-pill badge-info">
+                                <i class="icofont-ui-calendar icofont-1x"></i> {{ tag.name }}
+                            </span>
+                            {% endfor %}
                           <td>
                             <span class="badge badge-dot mr-4">
                               <i class="bg-warning"></i> pending
@@ -116,7 +121,9 @@
                             </div> -->
                           </td>                    
                         </tr>
+                        {% endfor %}
                         <tr>
+
                           <th scope="row">
                   
                               <a href="#" class="avatar rounded-circle mr-3">
@@ -290,6 +297,4 @@
               </div>
         </div> <!-- end right-container -->
     </div> <!-- end main-container -->
-</body>
-
-</html>
+{% endblock %}
