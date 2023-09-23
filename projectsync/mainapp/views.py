@@ -8,8 +8,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 # Create your views here.
 
-def projectDetails(request):
-    return render(request, 'projectDetails.html')
+def projectDetails(request, pk):
+    project = Project.objects.get(pk=pk)
+    contributors = project.contributors.all()
+    tags = project.tags.all()
+    return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags})
 
 @login_required
 def studentprofile(request):
