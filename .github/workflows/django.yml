@@ -1,0 +1,33 @@
+name: Django CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Clone the repository into a temporary directory.
+      - name: Clone repository
+        run: |
+          git clone --depth 1 https://github.com/${{ github.repository }}.git /tmp/django-ci
+
+      # Change directory to the subdirectory where the tests are located.
+      - name: Change directory to tests
+        working-directory: /projectssync
+
+      # Run the Django test command.
+      - name: Run Tests
+        run: |
+          python manage.py test
