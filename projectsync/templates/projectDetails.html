@@ -1,12 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-  <head>
+
     <title>Project Details</title>
-    <title>Tiffany Du | Designer &amp; Front-End Developer</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       href="https://fonts.googleapis.com/css?family=Unica+One%7CWork+Sans:300,600"
       rel="stylesheet"
@@ -17,8 +16,7 @@
     />
 
     <link rel="stylesheet" href="{% static 'css/projectDetails.css' %}" />
-  </head>
-  <body>
+
     <div class="modal-dialog wide" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -133,6 +131,4 @@
       <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
-  </body>
-  <!-- <script src="script.js"></script> -->
-</html>
+{% endblock %}

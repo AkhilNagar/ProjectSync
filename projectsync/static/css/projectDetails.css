@@ -359,3 +359,11 @@ footer.row {
 .comment-form textarea {
     height: 100px;
 }
+
+.project-details-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #778DA9;
+  padding: 10px 20px;
+}
