@@ -8,7 +8,10 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-#from .summarizer import summarize_readme
+from .summarizer import summarize_readme
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 # Create your views here.
 
 def projectDetails(request, pk):
@@ -219,6 +222,7 @@ def follow(request,pk):
     follow = Follow(student=student, project=project)
     follow.save()
     return redirect('feed.html')
+
 def feed(request):
     #Top 3 feed items
     feedlist=[]
@@ -243,6 +247,7 @@ def feed(request):
             print("message",j.message)
 
     return render(request,'feed.html', context)
+
 def knowmore(request,pk):
     feedlist=[]
     student = Student.objects.get(user=request.user)
@@ -260,3 +265,28 @@ def knowmore(request,pk):
         "feed": feedlist
     }
     return render(request,'update.html', context)
+
+@csrf_exempt
+def webhook(request):    
+    # Get the payload of the webhook request.
+    data = json.loads(request.body.decode('utf-8'))
+    webhook_msg = ""
+    if 'pusher' in data and 'name' in data['pusher']:
+            pusher_name = data['pusher']['name']
+            repository_name = data['repository']['name']
+            commits_count = len(data['commits'])
+            message = f"New commit in the '{repository_name}' repository by {pusher_name}. {commits_count} commit(s) made."
+            webhook_msg += message
+            print(message)  # You can replace this with any action you want to take when a commit is made.
+
+            # Print commit messages
+            commits = data.get("commits", [])
+            for commit in commits:
+                commit_message = commit.get("message", "")
+                print(f"Commit Message: {commit_message}.")
+                webhook_msg += f"Commit Message: {commit_message}."
+    
+    project = Project.objects.get(name="Project1")
+    feed_obj = Feed(project=project, message=webhook_msg)
+    feed_obj.save()
+    return JsonResponse({"message": "Received"})
