@@ -1,14 +1,19 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
 from .forms import UserForm, ProjectFilterForm
-from .models import User, Student, University, Tags, Project, Comment
-from .models import Follow,Feed
+from django.db.models import DateTimeField
+from .models import User, Student, University, Tags, Project, Comment, Follow, Feed
 from .forms import UserForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.utils import timezone
 #from .summarizer import summarize_readme
+from .summarizer import summarize_readme
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 # Create your views here.
 
 def projectDetails(request, pk):
@@ -16,11 +21,15 @@ def projectDetails(request, pk):
     contributors = project.contributors.all()
     tags = project.tags.all()
     current_user = request.user
+    print(type(current_user))
     isContributor = False
     for contributor in contributors:
-        if current_user == contributor:
+        print(type(contributor))
+        if current_user == contributor.user:
             isContributor = True
+            print(1)
             break
+    print(isContributor)
     comments = Comment.objects.filter(project=project)
     if request.method == "POST":
         comment = request.POST.get('comment')
@@ -30,7 +39,20 @@ def projectDetails(request, pk):
     
     return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags, 'comments': comments, 'current_user': current_user, 'isContributor': isContributor})
     
-
+def create_announcement(request, project_id):
+    project = Project.objects.get(pk=project_id)
+    contributors = project.contributors.all()
+    tags = project.tags.all()
+    current_user = request.user
+    isContributor = True
+    comments = Comment.objects.filter(project=project)
+    if request.method == 'POST':
+        message = request.POST.get('announcement_message')
+        if message:
+            Feed.objects.create(project=project, message=message)
+            return redirect('projectDetails', pk = project_id)
+        
+    return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags, 'comments': comments, 'current_user': current_user, 'isContributor': isContributor})
 
 def studentprofile(request):
     
@@ -220,7 +242,6 @@ def follow(request,pk):
     follow.save()
     return redirect('feed.html')
 
-
 def feed(request):
     #Top 3 feed items
     feedlist=[]
@@ -265,3 +286,29 @@ def updates(request,pk):
     for key,value in feed_dict.items():
         print("Name: ",key.pk," value: ",value)
     return render(request,'updates.html', {"feed":feed,"project":project})
+    return render(request,'update.html', context)
+
+@csrf_exempt
+def webhook(request):    
+    # Get the payload of the webhook request.
+    data = json.loads(request.body.decode('utf-8'))
+    webhook_msg = ""
+    if 'pusher' in data and 'name' in data['pusher']:
+            pusher_name = data['pusher']['name']
+            repository_name = data['repository']['name']
+            commits_count = len(data['commits'])
+            message = f"New commit in the '{repository_name}' repository by {pusher_name}. {commits_count} commit(s) made."
+            webhook_msg += message
+            print(message)  # You can replace this with any action you want to take when a commit is made.
+
+            # Print commit messages
+            commits = data.get("commits", [])
+            for commit in commits:
+                commit_message = commit.get("message", "")
+                print(f"Commit Message: {commit_message}.")
+                webhook_msg += f"Commit Message: {commit_message}."
+    
+    project_obj = Project.objects.filter(url__contains=data['repository']['name'])
+    feed_obj = Feed(project=project_obj, message=webhook_msg)
+    feed_obj.save()
+    return JsonResponse({"message": "Received"})

@@ -27,10 +27,13 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('explore/', views.explore, name="explore"),
     path('projectDetails/<int:pk>/',views.projectDetails, name="projectDetails"),
+    path('project/<int:project_id>/create_announcement/', views.create_announcement, name='create_announcement'),
     path('uploadProjects/',views.uploadProjects, name="uploadProjects"),
     path('univhome/', views.univhome, name="univhome"),
     path('studentprofile/',views.studentprofile,name="studentprofile"),
     path('follow/<int:pk>/', views.follow, name="follow"),    
-    path('feed/',views.feed,name="feed"),
     path('updates/<int:pk>/',views.updates, name="updates"),
+    path('feed/',views.feed,name="feed"),
+    path('webhook/', views.webhook, name='webhook'),
+         
 ]
