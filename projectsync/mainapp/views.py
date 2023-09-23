@@ -47,11 +47,10 @@ def user_login(request):
                     login(request,user)
                     
                     if Student.objects.filter(user=user).exists():
-                        return redirect('explore')
+                        return redirect('home')
                     else:
-                        return redirect('univhome')
-                    
-        
+                        return redirect('home')
+                            
         if "univsignup" in request.POST:
             print("Entered Univ Signup")
             # Save in users
