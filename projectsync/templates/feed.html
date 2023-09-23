@@ -9,17 +9,20 @@
   <!-- Create a container for the cards -->
   <div class="timeline-card-container">
     <!-- Card 1 -->
+    {% for key, value in feed.items %}
     <div class="timeline-container">
       <div class="head">
-        <h2 class="title">Project Title</h2>
-        <h3 class="details">University Name</h3>
+        <h2 class="title">{{key.name}}</h2>
+        <!-- <h3 class="details">{{key.project.univ}}</h3> -->
       </div>
       <ul class="list-updates">
+        {%for msg,date in value%}
         <li class="update">
-          <span class="time">19:50</span>
-          <p>Delete More than 50 Products.</p>
+          <span class="time">{{date}}</span>
+          <p>{{msg}}</p>
         </li>
-        <li class="update">
+        {%endfor%}
+        <!-- <li class="update">
           <span class="time">16:13</span>
           <p>Add Some new products, and change prices.</p>
         </li>
@@ -27,17 +30,18 @@
           <span class="time">13:35</span>
           <p>Make Discounts in more than 15 products.</p>
         </li>
-      </ul>
+      </ul> -->
       <div class="all-updates">
-        <a href="feed2.html"><button class="all" >Show All Updates</button></a>
+        <a href=""><button class="all" >Show All Updates</button></a>
       </div>
     </div>
+    
+    {%endfor%}
 
-    <!-- Card 2 -->
+    
     <div class="timeline-container">
       <div class="head">
         <h2 class="title">Project Title</h2>
-        <h3 class="details">University Name</h3>
       </div>
       <ul class="list-updates">
         <li class="update">
@@ -62,7 +66,6 @@
     <div class="timeline-container">
       <div class="head">
         <h2 class="title">Project Title</h2>
-        <h3 class="details">University Name</h3>
       </div>
       <ul class="list-updates">
         <li class="update">
@@ -85,7 +88,7 @@
     <div class="timeline-container">
         <div class="head">
             <h2 class="title">Project Title</h2>
-            <h3 class="details">University Name</h3>
+            
         </div>
         <ul class="list-updates">
           <li class="update">
@@ -108,7 +111,6 @@
       <div class="timeline-container">
         <div class="head">
             <h2 class="title">Project Title</h2>
-            <h3 class="details">University Name</h3>
         </div>
         <ul class="list-updates">
           <li class="update">

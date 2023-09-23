@@ -56,3 +56,5 @@ class Comment(models.Model):
 class Follow(models.Model):
     student= models.ForeignKey(Student, on_delete=models.CASCADE,default=None)
     project = models.ForeignKey(Project,on_delete=models.CASCADE,default=None,blank=True)
+    def str(self):
+        return self.project.name

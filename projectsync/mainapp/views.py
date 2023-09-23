@@ -219,44 +219,49 @@ def follow(request,pk):
     follow = Follow(student=student, project=project)
     follow.save()
     return redirect('feed.html')
+
+
 def feed(request):
     #Top 3 feed items
     feedlist=[]
+    feed_dict={}
+    project_dict={}
     student = Student.objects.get(user=request.user)
     follow = Follow.objects.filter(student=student)
     for i in follow:
-        # i is an object of class follow
-        feed= Feed.objects.filter(project=i.project).order_by('date_created').reverse()[:1]
-        feedlistperproj=[]
+        # i is an object of class follow <student,project>
+        feed= Feed.objects.filter(project=i.project).order_by('date_created').reverse()[:3]
+        #feed is [feed<p1>,feed<p1>,feed<p2>]
         for j in feed:
             # j is an object of class feed with project i
-            feedlistperproj.append(j)
-        feedlist.append(feedlistperproj)
-
+            if j.project not in feed_dict:
+                feed_dict[j.project] = []
+            feed_dict[j.project].append((j.message,j.date_created))
+            project_dict[j.project]=j.project.pk
     context={
-        "feed": feedlist
+        "feed": feed_dict, "project_dict":project_dict
     }
     # Access the values this way #delete after use
-    for i in feedlist:
-        for j in i:
-            print("projname",j.project.name)
-            print("message",j.message)
+    for key,value in feed_dict.items():
+        print("Name: ",key," value: ",value)
 
     return render(request,'feed.html', context)
-def knowmore(request,pk):
-    feedlist=[]
+
+
+
+def updates(request,pk):
+    feed_dict={}
+    project = Project.objects.get(pk=pk)
     student = Student.objects.get(user=request.user)
     follow = Follow.objects.filter(student=student)
     for i in follow:
-        # i is an object of class follow
+        # i is an object of class follow <student,project>
         feed= Feed.objects.filter(project=i.project).order_by('date_created').reverse()
-        feedlistperproj=[]
-        for j in feed:
-            # j is an object of class feed with project i
-            feedlistperproj.append(j)
-        feedlist.append(feedlistperproj)
-
+        #feed is [feed<p1>,feed<p1>,feed<p2>]
     context={
-        "feed": feedlist
+        "feed": feed_dict
     }
-    return render(request,'update.html', context)
+    # Access the values this way #delete after use
+    for key,value in feed_dict.items():
+        print("Name: ",key.pk," value: ",value)
+    return render(request,'updates.html', {"feed":feed,"project":project})

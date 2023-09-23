@@ -31,6 +31,6 @@ urlpatterns = [
     path('univhome/', views.univhome, name="univhome"),
     path('studentprofile/',views.studentprofile,name="studentprofile"),
     path('follow/<int:pk>/', views.follow, name="follow"),    
-    path('feed/',views.feed,name="feed")
-    
+    path('feed/',views.feed,name="feed"),
+    path('updates/<int:pk>/',views.updates, name="updates"),
 ]
