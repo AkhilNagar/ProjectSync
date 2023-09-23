@@ -32,5 +32,5 @@ urlpatterns = [
     path('studentprofile/',views.studentprofile,name="studentprofile"),
     path('feed/',views.feed,name="feed"),
     path('webhook/', views.webhook, name='webhook'),
-    
+    path('follow/<int:pk>/', views.follow, name="follow"),        
 ]

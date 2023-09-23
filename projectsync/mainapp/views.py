@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
+from .forms import UserForm, ProjectFilterForm
 from .models import User, Student, University, Tags, Project, Comment
+from .models import Follow,Feed
 from .forms import UserForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
@@ -118,9 +120,35 @@ def user_logout(request):
     return render(request,'home.html',{"isUniv":False})
 
 def explore(request):
-    projects = Project.objects.all()
-    return render(request, 'exploreProjects.html', {'projects' : projects})
+    form = ProjectFilterForm(request.GET)
+    projects = Project.objects.filter(is_approved=True)
 
+    if form.is_valid():
+        tag = form.cleaned_data['tag']
+        search = form.cleaned_data['search']
+
+        if tag:
+            projects = projects.filter(tags=tag)
+
+        if search:
+            projects = projects.filter(name__icontains=search)
+
+    context = {
+        'form': form,
+        'filteredProjects': projects,
+        'tags': Tags.objects.all(),
+    }
+
+    return render(request, 'exploreProjects.html', context)    
+
+def filtered_projects(projects, search_query, selected_tag):
+    filtered_projects = []
+    for project in projects:
+        if project.is_approved:
+            if project.name.lower().contains(search_query.lower()) or (selected_tag is project.tags.filter(name=selected_tag).exists()):
+                filtered_projects.append(project)
+    return filtered_projects
+        
 # This will be replaced once the upload projects button is created
 def uploadProjects(request):
     if request.method=='POST':
@@ -137,7 +165,10 @@ def uploadProjects(request):
             project_summary = summarize_readme(github_link)
         university = University.objects.get(name=uni_name)
         tags = Tags.objects.filter(name__in=domain_tags)
-        contributors = Student.objects.filter(user__email__in=collaborator_list.split(','))
+        collaborator_list = collaborator_list.split(',')
+        collaborator_list.append(request.user.email)
+        print(collaborator_list)
+        contributors = Student.objects.filter(user__email__in=collaborator_list)
         plagiarism_score = 0 # Fetch using API
 
         # Save data in DB
@@ -153,10 +184,15 @@ def uploadProjects(request):
         universities = University.objects.all()
         students = Student.objects.all()
         student_emails = ','.join([student.user.email for student in students])
-        return render(request, 'uploadForm.html', {'domain_tags': domain_tags, 'universities': universities, 'student_list': student_emails})
+
+        current_student = Student.objects.get(user=request.user)
+        current_user_uni = current_student.college.name
+        print(current_user_uni)
+        return render(request, 'uploadForm.html', {'domain_tags': domain_tags, 'universities': universities, 'student_list': student_emails, 'current_user_uni': current_user_uni})
 
 
 def univhome(request):
+
     if not request.user.is_authenticated:
         return render(request, 'login_required.html')
     user= User.objects.get(username=request.user.get_username())
@@ -180,25 +216,77 @@ def univhome(request):
     }
     return render(request,'univhome.html', context)
 
+def follow(request,pk):
+    project = Project.objects.get(pk=pk)
+    student = Student.objects.get(user=request.user)
+    follow = Follow(student=student, project=project)
+    follow.save()
+    return redirect('feed.html')
+
 def feed(request):
-    return render(request,'feed.html')
+    #Top 3 feed items
+    feedlist=[]
+    student = Student.objects.get(user=request.user)
+    follow = Follow.objects.filter(student=student)
+    for i in follow:
+        # i is an object of class follow
+        feed= Feed.objects.filter(project=i.project).order_by('date_created').reverse()[:1]
+        feedlistperproj=[]
+        for j in feed:
+            # j is an object of class feed with project i
+            feedlistperproj.append(j)
+        feedlist.append(feedlistperproj)
+
+    context={
+        "feed": feedlist
+    }
+    # Access the values this way #delete after use
+    for i in feedlist:
+        for j in i:
+            print("projname",j.project.name)
+            print("message",j.message)
+
+    return render(request,'feed.html', context)
+
+def knowmore(request,pk):
+    feedlist=[]
+    student = Student.objects.get(user=request.user)
+    follow = Follow.objects.filter(student=student)
+    for i in follow:
+        # i is an object of class follow
+        feed= Feed.objects.filter(project=i.project).order_by('date_created').reverse()
+        feedlistperproj=[]
+        for j in feed:
+            # j is an object of class feed with project i
+            feedlistperproj.append(j)
+        feedlist.append(feedlistperproj)
+
+    context={
+        "feed": feedlist
+    }
+    return render(request,'update.html', context)
 
 @csrf_exempt
-def webhook(request):
-    
+def webhook(request):    
     # Get the payload of the webhook request.
     data = json.loads(request.body.decode('utf-8'))
-
+    webhook_msg = ""
     if 'pusher' in data and 'name' in data['pusher']:
             pusher_name = data['pusher']['name']
             repository_name = data['repository']['name']
             commits_count = len(data['commits'])
             message = f"New commit in the '{repository_name}' repository by {pusher_name}. {commits_count} commit(s) made."
+            webhook_msg += message
             print(message)  # You can replace this with any action you want to take when a commit is made.
 
             # Print commit messages
             commits = data.get("commits", [])
             for commit in commits:
                 commit_message = commit.get("message", "")
-                print(f"Commit Message: {commit_message}")
+                print(f"Commit Message: {commit_message}.")
+                webhook_msg += f"Commit Message: {commit_message}."
+    
+    project = Project.objects.get(name="Project1")
+    feed_obj = Feed(project=project, message=webhook_msg)
+    feed_obj.save()
     return JsonResponse({"message": "Received"})
