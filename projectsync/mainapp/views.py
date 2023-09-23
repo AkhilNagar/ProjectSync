@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
-from .models import User,Student,University
+from .models import User, Student, University, Tags, Project
 from .forms import UserForm
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse, HttpResponseRedirect
@@ -79,12 +79,33 @@ def explore(request):
 
 # This will be replaced once the upload projects button is created
 def uploadProjects(request):
-    return render(request, 'uploadForm.html')
-def univhome(request):
-    # If button = accept:
-    #       database isapproved=true;
-    # if button = decline:
-    #       remove project from db;
-    # Query database for all projects that have isapproved=false
-    # Send it to front end
-    return render(request,'univhome.html')
+    if request.method=='POST':
+        # Fetch Details from HTML
+        title = request.POST['project_title']
+        project_summary = request.POST['project_summary']
+        uni_name = request.POST['uni_name']
+        domain_tags = request.POST.getlist('tags')
+        collaborator_list = request.POST.get('collaborator_list')
+        github_link = request.POST['github_link']
+        print(collaborator_list)
+        
+        # Prepare data for DB
+        university = University.objects.get(name=uni_name)
+        tags = Tags.objects.filter(name__in=domain_tags)
+        contributors = Student.objects.filter(user__email__in=collaborator_list.split(','))
+        plagiarism_score = 0 # Fetch using API
+
+        # Save data in DB
+        project_obj = Project(name=title, univ=university, summary=project_summary, url=github_link, plag_score=plagiarism_score)
+        project_obj.save()
+
+        project_obj.tags.set(tags)
+        project_obj.contributors.set(contributors)
+        
+        return redirect('explore')
+    else:
+        domain_tags = Tags.objects.all()
+        universities = University.objects.all()
+        students = Student.objects.all()
+        student_emails = ','.join([student.user.email for student in students])
+        return render(request, 'uploadForm.html', {'domain_tags': domain_tags, 'universities': universities, 'student_list': student_emails})

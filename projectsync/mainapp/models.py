@@ -29,7 +29,6 @@ class Tags(models.Model):
         return self.name
 
 class Project(models.Model):
-    projectid = models.IntegerField(default=None)
     name = models.CharField(max_length=300,default=None)
     univ= models.ForeignKey(University, on_delete=models.CASCADE,default=None)
     contributors = models.ManyToManyField(Student,default=None,blank=True)
