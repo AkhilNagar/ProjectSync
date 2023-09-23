@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from .summarizer import summarize_readme
 # Create your views here.
 
 def projectDetails(request, pk):
@@ -105,9 +106,10 @@ def uploadProjects(request):
         domain_tags = request.POST.getlist('tags')
         collaborator_list = request.POST.get('collaborator_list')
         github_link = request.POST['github_link']
-        print(collaborator_list)
         
         # Prepare data for DB
+        if project_summary=="":
+            project_summary = summarize_readme(github_link)
         university = University.objects.get(name=uni_name)
         tags = Tags.objects.filter(name__in=domain_tags)
         contributors = Student.objects.filter(user__email__in=collaborator_list.split(','))
