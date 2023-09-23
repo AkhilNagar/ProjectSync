@@ -30,5 +30,6 @@ urlpatterns = [
     path('uploadProjects/',views.uploadProjects, name="uploadProjects"),
     path('univhome/', views.univhome, name="univhome"),
     path('studentprofile/',views.studentprofile,name="studentprofile"),
+    path('feed/',views.feed,name="feed")
     
 ]
