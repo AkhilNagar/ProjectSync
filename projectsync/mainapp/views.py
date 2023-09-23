@@ -170,3 +170,6 @@ def univhome(request):
         "projects":projects,
     }
     return render(request,'univhome.html', context)
+
+def feed(request):
+    return render(request,'feed.html')
