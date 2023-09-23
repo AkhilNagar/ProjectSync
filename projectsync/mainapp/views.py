@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
-from .models import User, Student, University, Tags, Project
+from .models import User, Student, University, Tags, Project, Comment
 from .forms import UserForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
@@ -12,7 +12,15 @@ def projectDetails(request, pk):
     project = Project.objects.get(pk=pk)
     contributors = project.contributors.all()
     tags = project.tags.all()
-    return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags})
+    current_user = request.user
+    comments = Comment.objects.filter(project=project)
+    if request.method == "POST":
+        comment = request.POST.get('comment')
+        user = Student.objects.get(user=current_user)
+        comment_obj = Comment(user=user, project=project, comment=comment)
+        comment_obj.save()
+
+    return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags, 'comments': comments})
 
 @login_required
 def studentprofile(request):
@@ -26,7 +34,7 @@ def studentprofile(request):
         return render(request, 'error.html', {'message': 'You are not a student'})
     # Get the student's name
     student_name = student_profile.user.username
-    college=student_profile.college;
+    college=student_profile.college
     projects = Project.objects.filter(contributors=student_profile)
     return render(request, 'studentprofile.html', {'student_name': student_name, 'projects': projects,'college':college})
 
