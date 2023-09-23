@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
 {% csrf_token %}
 <!DOCTYPE html>
 <html lang="en">
@@ -75,49 +78,41 @@
     </style>
 </head>
 <body>
+    {% if user.is_authenticated %}
     <header>
-        <h1>Student Profile</h1>
+        <h1>Approval Pending</h1>
     </header>
     <div class="container">
         <!-- Student Request 1 -->
         <div class="student-request">
             <div class="request-details">
                 <div>
-                    <h2>John Doe</h2>
-                    <p>Computer Science Student</p>
-                    <p>Email: john@example.com</p>
+                    <h2>{{ user.username }}</h2>
+                    <p>Email: {{ user.email }}</p>
                 </div>
             </div>
-            <p>Project Name: Project 1</p>
-            <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <p>GitHub Repository: <a href="https://github.com/user/project1">https://github.com/user/project1</a></p>
-            <p>Request Date and Time: April 15, 2023, 10:30 AM</p>
-            <p>Plagiarism Score: 4</p>
+            {% for project in projects %}
+            <p><a href="{% url 'projectDetails' pk=project.pk %}">Project Name: {{ project.name }}</p>
+            <p>GitHub Repository: {{ project.url }}</a></p>
+            <p>Request Date and Time: {{project.date_created}}</p>
+            <p>Plagiarism Score: {{project.plag_score}}</p>
             <div class="action-buttons">
-                <button class="accept-button">✔ Accept</button>
-                <button class="reject-button">✘ Reject</button>
+                {% comment %} <button id = "save" name="accept" type='Submit' class="accept-button" ><a href="{% url 'univhome'  %}  " target ="_blank"> ✔ Accept </a></button> {% endcomment %}
+                <form action="{% url 'univhome' %}" method="POST">
+                {%csrf_token%}
+                <input  type="hidden" name="projname" value="{{ project.name }}"/>
+                <button name="accept" class="accept-button"> ✔ Accept </button>
+                <button name="reject" class="reject-button"> ✘ Reject</button>
+                </form>
+                {% comment %} <a href="{% url 'display'  %}  " target ="_blank"> Test your image </a> {% endcomment %}
             </div>
         </div>
-
-        <!-- Student Request 2 -->
-        <div class="student-request">
-            <div class="request-details">
-                <div>
-                    <h2>Jane Smith</h2>
-                    <p>Engineering Student</p>
-                    <p>Email: jane@example.com</p>
-                </div>
-            </div>
-            <p>Project Name: Project 2</p>
-            <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <p>GitHub Repository: <a href="https://github.com/user/project2">https://github.com/user/project2</a></p>
-            <p>Request Date and Time: April 16, 2023, 2:45 PM</p>
-            <p>Plagiarism Score: 4</p>
-            <div class="action-buttons">
-                <button class="accept-button">✔ Accept</button>
-                <button class="reject-button">✘ Reject</button>
-            </div>
-        </div>
+        {% endfor %}
     </div>
+    {% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">Log In/SignUp</a>
+{% endif %}
 </body>
 </html>
+{% endblock %}
