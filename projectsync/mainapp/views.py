@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from .summarizer import summarize_readme
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 # Create your views here.
 
 def projectDetails(request, pk):
@@ -179,3 +182,23 @@ def univhome(request):
 
 def feed(request):
     return render(request,'feed.html')
+
+@csrf_exempt
+def webhook(request):
+    
+    # Get the payload of the webhook request.
+    data = json.loads(request.body.decode('utf-8'))
+
+    if 'pusher' in data and 'name' in data['pusher']:
+            pusher_name = data['pusher']['name']
+            repository_name = data['repository']['name']
+            commits_count = len(data['commits'])
+            message = f"New commit in the '{repository_name}' repository by {pusher_name}. {commits_count} commit(s) made."
+            print(message)  # You can replace this with any action you want to take when a commit is made.
+
+            # Print commit messages
+            commits = data.get("commits", [])
+            for commit in commits:
+                commit_message = commit.get("message", "")
+                print(f"Commit Message: {commit_message}")
+    return JsonResponse({"message": "Received"})
