@@ -1,0 +1,8 @@
+version: '3.7'
+
+services:
+  web:
+    build: ./projectsync
+    image: django-webapp-python
+    ports:
+      - "8000:8000"
