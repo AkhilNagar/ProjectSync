@@ -62,7 +62,7 @@
             border-top: 1px solid #ccc;
             margin-top: 10px;
             margin-bottom: 10px;
-        }
+        } 
 
 
         /* Styles for the accept and reject buttons */
@@ -115,8 +115,9 @@
                 </form>
                 {% comment %} <a href="{% url 'display'  %}  " target ="_blank"> Test your image </a> {% endcomment %}
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        
     </div>
     {% else %}
   <p>You are not logged in</p>

@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
 from .models import User, Student, University, Tags, Project, Comment
+from .models import Follow
 from .forms import UserForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from .summarizer import summarize_readme
+#from .summarizer import summarize_readme
 # Create your views here.
 
 def projectDetails(request, pk):
@@ -161,6 +162,7 @@ def uploadProjects(request):
 
 
 def univhome(request):
+
     if not request.user.is_authenticated:
         return render(request, 'login_required.html')
     user= User.objects.get(username=request.user.get_username())
@@ -184,5 +186,11 @@ def univhome(request):
     }
     return render(request,'univhome.html', context)
 
+def follow(request,pk):
+    project = Project.objects.get(pk=pk)
+    student = Student.objects.get(user=request.user)
+    follow = Follow(student=student, project=project)
+    follow.save()
+    return redirect('feed.html')
 def feed(request):
     return render(request,'feed.html')
