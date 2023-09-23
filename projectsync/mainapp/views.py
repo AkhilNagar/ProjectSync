@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
-from .models import User,Student,University
+from .models import User,Student,University, Project
 from .forms import UserForm
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse, HttpResponseRedirect
@@ -87,4 +87,23 @@ def univhome(request):
     #       remove project from db;
     # Query database for all projects that have isapproved=false
     # Send it to front end
-    return render(request,'univhome.html')
+    user= User.objects.get(username=request.user.get_username())
+    univ= University.objects.get(user=user)
+    projects= Project.objects.filter(is_approved=False, univ=univ)
+    
+    if request.method=="POST":
+        print(dict(request.POST.items()))
+        projname = request.POST.get("projname")
+        print(projname)
+        proj= Project.objects.get(name=projname)
+        if "accept" in request.POST:
+            print("Accepted")
+            proj.is_approved=True
+            proj.save()
+        elif "reject" in request.POST:
+            print("Rejected")
+            proj.delete()
+    context={
+        "projects":projects,
+    }
+    return render(request,'univhome.html', context)
