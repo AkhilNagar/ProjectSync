@@ -75,7 +75,8 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('home'))
 
 def explore(request):
-    return render(request, 'exploreProjects.html')
+    projects = Project.objects.all()
+    return render(request, 'exploreProjects.html', {'projects' : projects})
 
 # This will be replaced once the upload projects button is created
 def uploadProjects(request):
