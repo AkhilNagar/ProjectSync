@@ -65,16 +65,26 @@
             class="btn td-btn outline green mb-30"
             href="{{ project.url }}"
             target="_blank"
-            title="Project Title"
-            ><span class="glyphicon glyphicon-link"></span> Visit Live Site</a
+            title="Website"
+            ><span class="glyphicon glyphicon-link"></span>Github Link</a
           >
+          {% if isContributor %}
           <a
             class="btn td-btn outline green mb-30"
             href=""
             target="_blank"
             title="Project Title"
-            ><span class="glyphicon glyphicon-plus"></span> Follow</a
+            ><span class="glyphicon glyphicon-plus"></span> Annoucement</a
           >
+          {% else %}
+          <a
+            class="btn td-btn outline green mb-30"
+            href=""
+            target="_blank"
+            title="Project Title"
+            ><span class="glyphicon glyphicon-plus"></span> Follow
+          </a>
+          {% endif %}
         </div>
       </div>
       <!-- /.row -->
