@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
-from .models import User, Student, University, Tags, Project
+from .models import User, Student, University, Tags, Project, Comment
 from .forms import UserForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
@@ -13,7 +13,15 @@ def projectDetails(request, pk):
     project = Project.objects.get(pk=pk)
     contributors = project.contributors.all()
     tags = project.tags.all()
-    return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags})
+    current_user = request.user
+    comments = Comment.objects.filter(project=project)
+    if request.method == "POST":
+        comment = request.POST.get('comment')
+        user = Student.objects.get(user=current_user)
+        comment_obj = Comment(user=user, project=project, comment=comment)
+        comment_obj.save()
+
+    return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags, 'comments': comments})
 
 
 def studentprofile(request):
