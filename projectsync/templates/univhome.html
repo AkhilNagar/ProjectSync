@@ -54,7 +54,16 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background-color: #f0f0f0; /* Background color for email section */
+            padding: 10px;
         }
+
+        .divider {
+            border-top: 1px solid #ccc;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        } 
+
 
         /* Styles for the accept and reject buttons */
         .action-buttons {
@@ -87,7 +96,7 @@
         <div class="student-request">
             <div class="request-details">
                 <div>
-                    <h2>{{ user.username }}</h2>
+                    <h2 style="text-align: center;">{{ user.username }}</h2>
                     <p>Email: {{ user.email }}</p>
                 </div>
             </div>
@@ -106,8 +115,9 @@
                 </form>
                 {% comment %} <a href="{% url 'display'  %}  " target ="_blank"> Test your image </a> {% endcomment %}
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        
     </div>
     {% else %}
   <p>You are not logged in</p>

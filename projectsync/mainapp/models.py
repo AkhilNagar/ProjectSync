@@ -34,22 +34,27 @@ class Project(models.Model):
     plag_score = models.IntegerField(default=None)
     is_approved = models.BooleanField(default=False)
     date_created= models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return self.name
 
 
 class Feed(models.Model):
     project = models.OneToOneField(Project,on_delete=models.CASCADE,default=None)
-    message= models.TextField(default=None)
-    date_created= models.DateTimeField(auto_now_add=True)
+    message = models.TextField(default=None)
+    date_created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.project.name
 
 class Comment(models.Model):
-    user= models.OneToOneField(Student,on_delete=models.CASCADE,default=None)
-    project = models.OneToOneField(Project,on_delete=models.CASCADE,default=None)
-    comment= models.TextField(default=None)
+    user = models.ForeignKey(Student, on_delete=models.CASCADE,default=None)
+    project = models.ForeignKey(Project,on_delete=models.CASCADE,default=None)
+    comment = models.TextField(default=None)
+    date_created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.project.name
 
+class Follow(models.Model):
+    student= models.ForeignKey(Student, on_delete=models.CASCADE,default=None)
+    project = models.ForeignKey(Project,on_delete=models.CASCADE,default=None,blank=True)
+    def __str__(self):
+        return self.project.name
