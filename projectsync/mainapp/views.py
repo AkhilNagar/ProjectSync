@@ -15,14 +15,20 @@ def projectDetails(request, pk):
     contributors = project.contributors.all()
     tags = project.tags.all()
     current_user = request.user
+    isContributor = False
+    for contributor in contributors:
+        if current_user == contributor:
+            isContributor = True
+            break
     comments = Comment.objects.filter(project=project)
     if request.method == "POST":
         comment = request.POST.get('comment')
         user = Student.objects.get(user=current_user)
         comment_obj = Comment(user=user, project=project, comment=comment)
         comment_obj.save()
-
-    return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags, 'comments': comments})
+    
+    return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags, 'comments': comments, 'current_user': current_user, 'isContributor': isContributor})
+    
 
 
 def studentprofile(request):
@@ -179,3 +185,5 @@ def follow(request,pk):
     follow = Follow(student=student, project=project)
     follow.save()
     return redirect('feed.html')
+def feed(request):
+    return render(request,'feed.html')
