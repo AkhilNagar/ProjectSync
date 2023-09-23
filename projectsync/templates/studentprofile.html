@@ -1,18 +1,14 @@
-
-
+{% extends "base.html" %}
+{% block content %}
 {% load static %}
 {% csrf_token %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/studentprofile.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <title>Document</title>
-</head>
-<body>
 
     <div class="main-container">
         <!-- LEFT-CONTAINER -->
@@ -301,6 +297,4 @@
               </div>
         </div> <!-- end right-container -->
     </div> <!-- end main-container -->
-</body>
-
-</html>
+{% endblock %}
