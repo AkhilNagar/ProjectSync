@@ -30,5 +30,5 @@ urlpatterns = [
     path('uploadProjects/',views.uploadProjects, name="uploadProjects"),
     path('univhome/', views.univhome, name="univhome"),
     path('studentprofile/',views.studentprofile,name="studentprofile"),
-    
+    path('follow/<int:pk>/', views.follow, name="follow")    
 ]
