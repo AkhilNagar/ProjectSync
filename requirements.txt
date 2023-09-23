@@ -1,5 +1,5 @@
-﻿requests==2.31.0
+﻿requests
 transformers
-tensorflow==2.13.0
-Django==4.2.5
+tensorflow
+Django
 django-channels
