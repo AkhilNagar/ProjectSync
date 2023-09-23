@@ -65,14 +65,14 @@
   <!-- HTML -->
 <nav class="navbar">
   <div class="navbar-right">
-    <a href="#">Project Name</a>
-    <a href="#">Explore</a>
+    <a href="{% url 'home' %}">ProjectSync</a>
+    <a href="{% url 'explore' %}">Explore</a>
     <a href="#">My Feed</a>
     <input type="search" placeholder="Search">
   </div>
   <div class="navbar-left">
     <a href="{% url 'studentprofile' %}">Profile</a>
-    <a href="#">Login/Register</a>
+    <a href="{% url 'login' %}">Login/Register</a>
   </div>
 </nav>
 
