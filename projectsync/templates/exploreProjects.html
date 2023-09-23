@@ -22,14 +22,16 @@
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">Project</th>
-                    <th scope="col">Domain</th>
-                    <th scope="col">Tags/Status</th>
+                    <th scope="col">Domain/Tags</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Contributors</th>
                     <th scope="col">University</th>
                   </tr>
                 </thead>
                 <tbody>
                     {% for project in projects %}
+                    {% if project.is_approved %}
+
                     <tr>
                         <th scope="row">
                             <div class ="media align-items-center">
@@ -77,6 +79,8 @@
                             </div>
                         </td>
                     </tr>
+
+                    {% endif %}
                     {% endfor %}
                   <tr>
                     <th scope="row">
