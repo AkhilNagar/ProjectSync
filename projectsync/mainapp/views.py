@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from .models import User, Student, University, Tags, Project
 from .forms import UserForm
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 # Create your views here.
@@ -10,8 +11,21 @@ from django.urls import reverse
 def projectDetails(request):
     return render(request, 'projectDetails.html')
 
+@login_required
 def studentprofile(request):
-    return render(request,'studentprofile.html')
+    # Get the current user's student profile
+    current_user = request.user
+    try:
+        student_profile = Student.objects.get(user=current_user)
+    except Student.DoesNotExist:
+        # Handle the case where the user is not a student
+        # You can redirect or show an error message here
+        return render(request, 'error.html', {'message': 'You are not a student'})
+    # Get the student's name
+    student_name = student_profile.user.username
+    college=student_profile.college;
+    projects = Project.objects.filter(contributors=student_profile)
+    return render(request, 'studentprofile.html', {'student_name': student_name, 'projects': projects,'college':college})
 
 def user_login(request):
     if request.method == "POST":

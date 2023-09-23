@@ -25,7 +25,7 @@ urlpatterns = [
     path("logout/",views.user_logout, name="logout"),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('explore/', views.explore, name="explore"),
-    path('projectDetails/',views.projectDetails, name="projectDetails"),
+    path('projectDetails/<int:pk>/',views.projectDetails, name="projectDetails"),
     path('uploadProjects/',views.uploadProjects, name="uploadProjects"),
     path('univhome/', views.univhome, name="univhome"),
     path('studentprofile/',views.studentprofile,name="studentprofile")
