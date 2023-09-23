@@ -39,7 +39,6 @@ class Project(models.Model):
         return self.name
 
 
-
 class Feed(models.Model):
     project = models.OneToOneField(Project,on_delete=models.CASCADE,default=None)
     message= models.TextField(default=None)

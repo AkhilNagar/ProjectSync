@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
 from .models import User, Student, University, Tags, Project
-from .forms import UserForm
+from .forms import UserForm, ProjectFilterForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -92,9 +92,35 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('home'))
 
 def explore(request):
-    projects = Project.objects.all()
-    return render(request, 'exploreProjects.html', {'projects' : projects})
+    form = ProjectFilterForm(request.GET)
+    projects = Project.objects.filter(is_approved=True)
 
+    if form.is_valid():
+        tag = form.cleaned_data['tag']
+        search = form.cleaned_data['search']
+
+        if tag:
+            projects = projects.filter(tags=tag)
+
+        if search:
+            projects = projects.filter(name__icontains=search)
+
+    context = {
+        'form': form,
+        'filteredProjects': projects,
+        'tags': Tags.objects.all(),
+    }
+
+    return render(request, 'exploreProjects.html', context)    
+
+def filtered_projects(projects, search_query, selected_tag):
+    filtered_projects = []
+    for project in projects:
+        if project.is_approved:
+            if project.name.lower().contains(search_query.lower()) or (selected_tag is project.tags.filter(name=selected_tag).exists()):
+                filtered_projects.append(project)
+    return filtered_projects
+        
 # This will be replaced once the upload projects button is created
 def uploadProjects(request):
     if request.method=='POST':
