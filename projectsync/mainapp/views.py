@@ -10,6 +10,9 @@ from django.urls import reverse
 def projectDetails(request):
     return render(request, 'projectDetails.html')
 
+def studentprofile(request):
+    return render(request,'studentprofile.html')
+
 def user_login(request):
     if request.method == "POST":
         if "login" in request.POST:
@@ -24,7 +27,12 @@ def user_login(request):
             else:
                 if user.check_password(password):
                     login(request,user)
-                    return render(request, 'home.html')
+                    
+                    if Student.objects.filter(user=user).exists():
+                        return redirect('explore')
+                    else:
+                        return redirect('univhome')
+                    
         
         if "univsignup" in request.POST:
             print("Entered Univ Signup")

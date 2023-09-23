@@ -1,13 +1,82 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}Django{% endblock %}</title>
+  <title>{% block title %}ProjectSync{% endblock %}</title>
+  <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+  <style>
+   /* CSS */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #778DA9;
+      padding: 10px 20px;
+    }
+
+    .navbar-right,
+    .navbar-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-right a,
+    .navbar-left a {
+      text-decoration: none;
+      color: #333;
+      margin: 0 10px;
+      font-size: 16px;
+    }
+
+    .navbar-right input {
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .navbar-right input:focus {
+      outline: none;
+      border-color: #04AA6D;
+    }
+
+    /* Additional styling */
+    .navbar {
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-right a,
+    .navbar-left a {
+      transition: color 0.2s ease;
+    }
+
+    .navbar-right a:hover,
+    .navbar-left a:hover {
+      color: #0D1B2A;
+    }
+
+    .navbar-right input {
+      width: 200px;
+    }
+
+  </style>
 </head>
 <body>
-  <main>
-    {% block content %}
-    {% endblock %}
-  </main>
+  <!-- HTML -->
+<nav class="navbar">
+  <div class="navbar-right">
+    <a href="#">Project Name</a>
+    <a href="#">Explore</a>
+    <a href="#">My Feed</a>
+    <input type="search" placeholder="Search">
+  </div>
+  <div class="navbar-left">
+    <a href="{% url 'studentprofile' %}">Profile</a>
+    <a href="#">Login/Register</a>
+  </div>
+</nav>
+
+  {% block content %}
+  {% endblock %}
 </body>
 </html>

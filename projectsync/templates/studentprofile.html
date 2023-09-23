@@ -1,0 +1,295 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/studentprofile.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- LEFT-CONTAINER -->
+        <div class="left-container container">
+            <div class="profile block"> <!-- PROFILE (MIDDLE-CONTAINER) -->
+                <a class="add-button" href="#28"><span class="icon entypo-plus scnd-font-color"></span></a>
+                <div class="profile-picture big-profile-picture clear">
+                    <img width="150px" alt="Anne Hathaway picture" src="C:\Users\Sanyukta\Desktop\SEMESTER - 7\SIH\profile\desktop wp.jpg" >
+                </div>
+                <h1 class="user-name">Anne Hathaway</h1>
+                <div class="profile-description">
+                    <p class="scnd-font-color">Lorem ipsum dolor sit amet consectetuer adipiscing</p>
+                </div>
+                <ul class="profile-options horizontal-list">
+                    <li><a class="comments" href="#40"><p>23<br>Followers</li></p></a>
+                    <li><a class="views" href="#41"><p></span>841<br>Following</li></p></a>
+                    <li><a class="likes" href="#42"><p>49<br>Projects</li></p></a>
+                </ul>
+            </div>
+            <div class="menu-box block"> <!-- MENU BOX (LEFT-CONTAINER) -->
+                <h2 class="titular">MENU BOX</h2>
+                <ul class="menu-box-menu">
+                    <li>
+                        <a class="menu-box-tab" href="#6">Your Projects</a>                            
+                    </li>
+                    <li>
+                        <a class="menu-box-tab" href="#8">Projects Followed</a>                            
+                    </li>
+                    <li>
+                        <a class="menu-box-tab" href="#10">Requests<div class="menu-box-number">5</div></a>                            
+                    </li>
+                    <li>
+                        <a class="menu-box-tab" href="#12">Create New Project</a>
+                    </li>                      
+                </ul>
+            </div>
+        </div>
+
+        <!-- RIGHT-CONTAINER -->
+        <div class="right-container container">
+            <div class="col">
+                <div class="card shadow">
+                  <div class="card-header border-0" style = "text-align:center;">
+                    <h2 class="mb-0"><centre>Your Projects</centre></h2>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col">Project</th>
+                          <th scope="col">Domain</th>
+                          <th scope="col">Tags/Status</th>
+                          <th scope="col">Contributors</th>
+                          <th scope="col">University</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">
+                            
+                              <a href="#" class="avatar rounded-circle mr-3">
+                                <img alt="Image placeholder" src="https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/img/theme/bootstrap.jpg">
+                              </a>
+                              <div class="media-body">
+                                <span class="mb-0 text-sm">ProjectsSync</span>
+                              </div>
+                            
+                          </th>
+                          <td>
+                              <span class="badge badge-pill badge-info"><i class="icofont-ui-calendar icofont-1x"></i> &nbsp;React</span>&nbsp;&nbsp;</span><br><br>
+                              <span class="badge badge-pill badge-info"><i class="icofont-wall-clock icofont-1x"></i> &nbsp;ML</span>
+                          </td>
+                          <td>
+                            <span class="badge badge-dot mr-4">
+                              <i class="bg-warning"></i> pending
+                            </span>
+                          </td>
+                          <td>
+                            <div class="avatar-group">
+                              <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
+                                <img src="{%static 'images/explore_images/face1.jpg' %}" alt = "Image 1">
+                              </a>
+                              <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">
+                                  <img src="{%static 'images/explore_images/face2.jpg' %}" alt = "Image 1">
+                              </a>
+                              <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">
+                                  <img src="{%static 'images/explore_images/face3.jpg' %}" alt = "Image 1">
+                              </a>
+                              <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">
+                                  <img src="{%static 'images/explore_images/face4.jpeg' %}" alt = "Image 1">
+                              </a>
+                            </div>
+                          </td>
+                          <td>
+                              <div class="media-body">
+                                  <span class="mb-0 text-sm">K J Somaiya College of Engineering</span>
+                              </div>
+                            <!-- <div class="d-flex align-items-center">
+                              <span class="mr-2">60%</span>
+                              <div>
+                                <div class="progress">
+                                  <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                                </div>
+                              </div>
+                            </div> -->
+                          </td>                    
+                        </tr>
+                        <tr>
+                          <th scope="row">
+                  
+                              <a href="#" class="avatar rounded-circle mr-3">
+                                <img alt="Image placeholder" src="https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/img/theme/angular.jpg">
+                              </a>
+                              <div class="media-body">
+                                <span class="mb-0 text-sm">DigiId</span>
+                              </div>
+                            
+                          </th>
+                          <td>
+                              <span class="badge badge-pill badge-info"><i class="icofont-ui-calendar icofont-1x"></i> &nbsp;DevOps</span>&nbsp;&nbsp;</span><br><br>
+                              <span class="badge badge-pill badge-info"><i class="icofont-wall-clock icofont-1x"></i> &nbsp;Microservices</span>
+                          </td>
+                          <td>
+                            <span class="badge badge-dot">
+                              <i class="bg-success"></i> completed
+                            </span>
+                          </td>
+                          <td>
+                              <div class="avatar-group">
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
+                                    <img src="{%static 'images/explore_images/face1.jpg' %}" alt = "Image 1">
+                                  </a>
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">
+                                      <img src="{%static 'images/explore_images/face2.jpg' %}" alt = "Image 1">
+                                  </a>
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">
+                                      <img src="{%static 'images/explore_images/face3.jpg' %}" alt = "Image 1">
+                                  </a>
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">
+                                      <img src="{%static 'images/explore_images/face4.jpeg' %}" alt = "Image 1">
+                                  </a>
+                                </div>
+                          </td>
+                          <td>
+                              <div class="media-body">
+                                  <span class="mb-0 text-sm">K J Somaiya College of Engineering</span>
+                              </div>
+                          </td>                    
+                        </tr>
+                        <tr>
+                          <th scope="row">
+                            
+                              <a href="#" class="avatar rounded-circle mr-3">
+                                <img alt="Image placeholder" src="https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/img/theme/sketch.jpg">
+                              </a>
+                              <div class="media-body">
+                                <span class="mb-0 text-sm">Cartonify</span>
+                              </div>
+  
+                          </th>
+                          <td>
+                              <span class="badge badge-pill badge-info"><i class="icofont-ui-calendar icofont-1x"></i> &nbsp;Deep Learning</span>                        
+                          </td>
+                          <td>
+                            <span class="badge badge-dot mr-4">
+                              <i class="bg-danger"></i> delayed
+                            </span>
+                          </td>
+                          <td>
+                              <div class="avatar-group">
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
+                                    <img src="{%static 'images/explore_images/face1.jpg' %}" alt = "Image 1">
+                                  </a>
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">
+                                      <img src="{%static 'images/explore_images/face2.jpg' %}" alt = "Image 1">
+                                  </a>
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">
+                                      <img src="{%static 'images/explore_images/face3.jpg' %}" alt = "Image 1">
+                                  </a>
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">
+                                      <img src="{%static 'images/explore_images/face4.jpeg' %}" alt = "Image 1">
+                                  </a>
+                                </div>
+                          </td>
+                          <td>
+                              <div class="media-body">
+                                  <span class="mb-0 text-sm">Indian Institute of Technology, Bombay</span>
+                              </div>
+                          </td>                    
+                        </tr>
+                        <tr>
+                          <th scope="row">
+                            
+                              <a href="#" class="avatar rounded-circle mr-3">
+                                <img alt="Image placeholder" src="https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/img/theme/react.jpg">
+                              </a>
+                              <div class="media-body">
+                                <span class="mb-0 text-sm">Image Colourisation</span>
+                              </div>
+                           
+                          </th>
+                          <td>
+                              <span class="badge badge-pill badge-info"><i class="icofont-ui-calendar icofont-1x"></i> &nbsp;Deep Learning</span>&nbsp;&nbsp;</span><br><br>
+                              <span class="badge badge-pill badge-info"><i class="icofont-wall-clock icofont-1x"></i> &nbsp;Microservices</span>
+                          </td>
+                          <td>
+                            <span class="badge badge-dot">
+                              <i class="bg-info"></i> on schedule
+                            </span>
+                          </td>
+                          <td>
+                              <div class="avatar-group">
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
+                                    <img src="{%static 'images/explore_images/face1.jpg' %}" alt = "Image 1">
+                                  </a>
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">
+                                      <img src="{%static 'images/explore_images/face2.jpg' %}" alt = "Image 1">
+                                  </a>
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">
+                                      <img src="{%static 'images/explore_images/face3.jpg' %}" alt = "Image 1">
+                                  </a>
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">
+                                      <img src="{%static 'images/explore_images/face4.jpeg' %}" alt = "Image 1">
+                                  </a>
+                                </div>
+                          </td>
+                          <td>
+                              <div class="media-body">
+                                  <span class="mb-0 text-sm">D J Sanghavi</span>
+                              </div>
+                          </td>                    
+                        </tr>
+                        <tr>
+                          <th scope="row">
+                            
+                              <a href="#" class="avatar rounded-circle mr-3">
+                                <img alt="Image placeholder" src="https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/img/theme/vue.jpg">
+                              </a>
+                              <div class="media-body">
+                                <span class="mb-0 text-sm">Splitwise</span>
+                              </div>
+                            
+                          </th>
+                          <td>
+                              <span class="badge badge-pill badge-info"><i class="icofont-ui-calendar icofont-1x"></i> &nbsp;Django Web Dev</span>&nbsp;&nbsp;</span><br><br>                        
+                          </td>
+                          <td>
+                            <span class="badge badge-dot mr-4">
+                              <i class="bg-success"></i> completed
+                            </span>
+                          </td>
+                          <td>
+                              <div class="avatar-group">
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
+                                    <img src="{%static 'images/explore_images/face1.jpg' %}" alt = "Image 1">
+                                  </a>
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">
+                                      <img src="{%static 'images/explore_images/face2.jpg' %}" alt = "Image 1">
+                                  </a>
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">
+                                      <img src="{%static 'images/explore_images/face3.jpg' %}" alt = "Image 1">
+                                  </a>
+                                  <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">
+                                      <img src="{%static 'images/explore_images/face4.jpeg' %}" alt = "Image 1">
+                                  </a>
+                                </div>
+                          </td>
+                          <td>
+                              <div class="media-body">
+                                  <span class="mb-0 text-sm">BITS, Goa </span>
+                              </div>
+                          </td>                
+                        </tr>
+                      </tbody>
+                    </table>
+                    
+                  </div>            
+                </div>
+              </div>
+        </div> <!-- end right-container -->
+    </div> <!-- end main-container -->
+</body>
+
+</html>
