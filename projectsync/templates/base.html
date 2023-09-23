@@ -65,6 +65,20 @@
 <body>
   <!-- HTML -->
 <nav class="navbar">
+
+  {% if user.is_authenticated %}
+  <div class="navbar-right">
+    <a href="{% url 'home' %}">ProjectSync</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="#">My Feed</a>
+    <input type="search" placeholder="Search">
+  </div>
+  <div class="navbar-left">
+    <a href="{% url 'studentprofile' %}">Profile</a>
+    <a href="{% url 'logout' %}">Logout</a>
+  </div>
+
+  {% else %}  
   <div class="navbar-right">
     <a href="{% url 'home' %}">ProjectSync</a>
     <a href="{% url 'explore' %}">Explore</a>
@@ -75,6 +89,10 @@
     <a href="{% url 'studentprofile' %}">Profile</a>
     <a href="{% url 'login' %}">Login/Register</a>
   </div>
+
+  {% endif %}
+
+
 </nav>
 
   {% block content %}
