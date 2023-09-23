@@ -2,8 +2,8 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
 from .forms import UserForm, ProjectFilterForm
 from .models import User, Student, University, Tags, Project, Comment
-from .models import Follow
-
+from .models import Follow,Feed
+from .forms import UserForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -220,4 +220,43 @@ def follow(request,pk):
     follow.save()
     return redirect('feed.html')
 def feed(request):
-    return render(request,'feed.html')
+    #Top 3 feed items
+    feedlist=[]
+    student = Student.objects.get(user=request.user)
+    follow = Follow.objects.filter(student=student)
+    for i in follow:
+        # i is an object of class follow
+        feed= Feed.objects.filter(project=i.project).order_by('date_created').reverse()[:1]
+        feedlistperproj=[]
+        for j in feed:
+            # j is an object of class feed with project i
+            feedlistperproj.append(j)
+        feedlist.append(feedlistperproj)
+
+    context={
+        "feed": feedlist
+    }
+    # Access the values this way #delete after use
+    for i in feedlist:
+        for j in i:
+            print("projname",j.project.name)
+            print("message",j.message)
+
+    return render(request,'feed.html', context)
+def knowmore(request,pk):
+    feedlist=[]
+    student = Student.objects.get(user=request.user)
+    follow = Follow.objects.filter(student=student)
+    for i in follow:
+        # i is an object of class follow
+        feed= Feed.objects.filter(project=i.project).order_by('date_created').reverse()
+        feedlistperproj=[]
+        for j in feed:
+            # j is an object of class feed with project i
+            feedlistperproj.append(j)
+        feedlist.append(feedlistperproj)
+
+    context={
+        "feed": feedlist
+    }
+    return render(request,'update.html', context)

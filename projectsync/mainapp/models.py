@@ -39,7 +39,7 @@ class Project(models.Model):
 
 
 class Feed(models.Model):
-    project = models.OneToOneField(Project,on_delete=models.CASCADE,default=None)
+    project = models.ForeignKey(Project,on_delete=models.CASCADE,default=None)
     message = models.TextField(default=None)
     date_created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
@@ -56,5 +56,3 @@ class Comment(models.Model):
 class Follow(models.Model):
     student= models.ForeignKey(Student, on_delete=models.CASCADE,default=None)
     project = models.ForeignKey(Project,on_delete=models.CASCADE,default=None,blank=True)
-    def __str__(self):
-        return self.project.name
