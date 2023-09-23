@@ -109,3 +109,12 @@ def uploadProjects(request):
         students = Student.objects.all()
         student_emails = ','.join([student.user.email for student in students])
         return render(request, 'uploadForm.html', {'domain_tags': domain_tags, 'universities': universities, 'student_list': student_emails})
+
+def univhome(request):
+    # If button = accept:
+    #       database isapproved=true;
+    # if button = decline:
+    #       remove project from db;
+    # Query database for all projects that have isapproved=false
+    # Send it to front end
+    return render(request,'univhome.html')
