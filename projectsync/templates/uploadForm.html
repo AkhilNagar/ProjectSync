@@ -134,9 +134,13 @@
             <div class="form-group">
                 <label for="collegeName">College Name *</label>
                 <select class="form-control" id="collegeName" name="uni_name" placeholder="Select your university" required>
-                    <option disabled selected value="">Select your university</option>  
+                    <option disabled value="">Select your university</option>  
                     {% for uni in universities %}
-                    <option value="{{uni.name}}">{{uni.name}}</option>
+                        {% if uni.name == current_user_uni %}
+                            <option selected value="{{uni.name}}">{{uni.name}}</option>
+                        {% else %}
+                            <option value="{{uni.name}}">{{uni.name}}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>

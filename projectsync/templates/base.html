@@ -71,12 +71,12 @@
     <a href="{% url 'home' %}">ProjectSync</a>
     <a href="{% url 'explore' %}">Explore</a>
     <a href="{% url 'feed' %}">My Feed</a>
-    <input type="search" placeholder="Search">
   </div>
   <div class="navbar-left">
     {% if isUniv %}
     <a href="{% url 'univhome' %}">Approvals</a>
     {% endif %}
+    <a href="{% url 'uploadProjects' %}">Upload Project</a>
     <a href="{% url 'studentprofile' %}">Hi {{ user.username }}!</a>
     <a href="{% url 'logout' %}">Logout</a>
   </div>
@@ -85,16 +85,11 @@
   <div class="navbar-right">
     <a href="{% url 'home' %}">ProjectSync</a>
     <a href="{% url 'explore' %}">Explore</a>
-    <a href="{% url 'feed' %}">My Feed</a>
-    <input type="search" placeholder="Search">
   </div>
   <div class="navbar-left">
-    {% comment %} <a href="{% url 'studentprofile' %}">Profile</a> {% endcomment %}
     <a href="{% url 'login' %}">Login/Register</a>
   </div>
-
   {% endif %}
-
 
 </nav>
 

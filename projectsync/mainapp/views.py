@@ -134,7 +134,10 @@ def uploadProjects(request):
             project_summary = summarize_readme(github_link)
         university = University.objects.get(name=uni_name)
         tags = Tags.objects.filter(name__in=domain_tags)
-        contributors = Student.objects.filter(user__email__in=collaborator_list.split(','))
+        collaborator_list = collaborator_list.split(',')
+        collaborator_list.append(request.user.email)
+        print(collaborator_list)
+        contributors = Student.objects.filter(user__email__in=collaborator_list)
         plagiarism_score = 0 # Fetch using API
 
         # Save data in DB
@@ -150,7 +153,11 @@ def uploadProjects(request):
         universities = University.objects.all()
         students = Student.objects.all()
         student_emails = ','.join([student.user.email for student in students])
-        return render(request, 'uploadForm.html', {'domain_tags': domain_tags, 'universities': universities, 'student_list': student_emails})
+
+        current_student = Student.objects.get(user=request.user)
+        current_user_uni = current_student.college.name
+        print(current_user_uni)
+        return render(request, 'uploadForm.html', {'domain_tags': domain_tags, 'universities': universities, 'student_list': student_emails, 'current_user_uni': current_user_uni})
 
 
 def univhome(request):
