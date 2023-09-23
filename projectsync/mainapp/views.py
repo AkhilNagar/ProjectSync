@@ -23,23 +23,31 @@ def projectDetails(request, pk):
 
     return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags, 'comments': comments})
 
-@login_required
+
 def studentprofile(request):
+    
+    if not request.user.is_authenticated:
+        return render(request, 'login_required.html')
     # Get the current user's student profile
     current_user = request.user
-    try:
+    student_profile = Student.objects.filter(user=current_user).count()
+    if student_profile!=0:
         student_profile = Student.objects.get(user=current_user)
-    except Student.DoesNotExist:
-        # Handle the case where the user is not a student
-        # You can redirect or show an error message here
-        return render(request, 'error.html', {'message': 'You are not a student'})
-    # Get the student's name
-    student_name = student_profile.user.username
-    college=student_profile.college
-    projects = Project.objects.filter(contributors=student_profile)
-    return render(request, 'studentprofile.html', {'student_name': student_name, 'projects': projects,'college':college})
+        student_name = student_profile.user.username
+        college=student_profile.college
+        projects = Project.objects.filter(contributors=student_profile)
+        return render(request, 'studentprofile.html', {'student_name': student_name, 'projects': projects,'college':college})
+    elif University.objects.filter(user=current_user).count() !=0:
+        univ_profile = University.objects.get(user=current_user)
+        univ_name = univ_profile.name
+        projects = Project.objects.filter(name=univ_name)
+        return render(request, 'studentprofile.html', {'student_name': univ_name, 'projects': projects,'college':univ_name})
+
+
+    #return render(request, 'studentprofile.html', {'student_name': student_name, 'projects': projects,'college':college})
 
 def user_login(request):
+    isUniv=False
     if request.method == "POST":
         if "login" in request.POST:
             print("Entered Login")
@@ -55,9 +63,10 @@ def user_login(request):
                     login(request,user)
                     
                     if Student.objects.filter(user=user).exists():
-                        return redirect('home')
+                        return render(request,'home.html',{"isUniv":isUniv})
                     else:
-                        return redirect('home')
+                        isUniv=True
+                        return render(request,'home.html',{"isUniv":isUniv})
                             
         if "univsignup" in request.POST:
             print("Entered Univ Signup")
@@ -97,7 +106,7 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('home'))
+    return render(request,'home.html',{"isUniv":False})
 
 def explore(request):
     projects = Project.objects.all()
@@ -137,13 +146,10 @@ def uploadProjects(request):
         student_emails = ','.join([student.user.email for student in students])
         return render(request, 'uploadForm.html', {'domain_tags': domain_tags, 'universities': universities, 'student_list': student_emails})
 
+
 def univhome(request):
-    # If button = accept:
-    #       database isapproved=true;
-    # if button = decline:
-    #       remove project from db;
-    # Query database for all projects that have isapproved=false
-    # Send it to front end
+    if not request.user.is_authenticated:
+        return render(request, 'login_required.html')
     user= User.objects.get(username=request.user.get_username())
     univ= University.objects.get(user=user)
     projects= Project.objects.filter(is_approved=False, univ=univ)

@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block content %} {% load static %}
+{% extends "base.html" %} {% block content %} {% load static %} {% csrf_token %}
 <!-- {% if user.is_authenticated %}
   Hi {{ user.username }}!
   <a href="{% url 'logout' %}">Click here to logout</a>
