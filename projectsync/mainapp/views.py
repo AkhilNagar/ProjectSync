@@ -305,7 +305,7 @@ def webhook(request):
                 print(f"Commit Message: {commit_message}.")
                 webhook_msg += f"Commit Message: {commit_message}."
     
-    project = Project.objects.get(name="Project1")
-    feed_obj = Feed(project=project, message=webhook_msg)
+    project_obj = Project.objects.filter(url__contains=data['repository']['name'])
+    feed_obj = Feed(project=project_obj, message=webhook_msg)
     feed_obj.save()
     return JsonResponse({"message": "Received"})
