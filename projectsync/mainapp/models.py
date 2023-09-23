@@ -1,14 +1,11 @@
 from django.db import models
 
-
 from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
 def __str__(self):
     #username=self.user.username
     return self.user.username
-
-
 
 class University(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,default=None)
