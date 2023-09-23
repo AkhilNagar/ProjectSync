@@ -10,7 +10,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 #from .summarizer import summarize_readme
-from .summarizer import summarize_readme
+#from .summarizer import summarize_readme
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
