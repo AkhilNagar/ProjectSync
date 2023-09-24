@@ -10,7 +10,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 #from .summarizer import summarize_readme
-#from .summarizer import summarize_readme
+from .summarizer import summarize_readme
+from .plagerism import plagiarism_checker
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -55,7 +56,6 @@ def create_announcement(request, project_id):
     return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags, 'comments': comments, 'current_user': current_user, 'isContributor': isContributor})
 
 def studentprofile(request):
-    
     if not request.user.is_authenticated:
         return render(request, 'login_required.html')
     # Get the current user's student profile
@@ -188,10 +188,17 @@ def uploadProjects(request):
         collaborator_list.append(request.user.email)
         print(collaborator_list)
         contributors = Student.objects.filter(user__email__in=collaborator_list)
-        plagiarism_score = 0 # Fetch using API
-
+        projects_filtered = Project.objects.filter(tags=tags[0])
+        max_plagiarism_score = 0 # Fetch using API
+        print(projects_filtered)
+        for proj in projects_filtered:
+            print(proj.summary)
+            plagiarism_score = plagiarism_checker(proj.summary, project_summary)
+            print(plagiarism_score)
+            max_plagiarism_score = max(plagiarism_score, max_plagiarism_score)
         # Save data in DB
-        project_obj = Project(name=title, univ=university, summary=project_summary, url=github_link, plag_score=plagiarism_score)
+        print(max_plagiarism_score)
+        project_obj = Project(name=title, univ=university, summary=project_summary, url=github_link, plag_score=max_plagiarism_score)
         project_obj.save()
 
         project_obj.tags.set(tags)
@@ -240,7 +247,7 @@ def follow(request,pk):
     student = Student.objects.get(user=request.user)
     follow = Follow(student=student, project=project)
     follow.save()
-    return redirect('feed.html')
+    return redirect('feed')
 
 def feed(request):
     feed_dict = {}
