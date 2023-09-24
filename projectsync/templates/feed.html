@@ -9,34 +9,26 @@
   <!-- Create a container for the cards -->
   <div class="timeline-card-container">
     <!-- Card 1 -->
-    {% for key, value in feed.items %}
+    {% for pk, project_data in feed_dict.items %}
+    <!-- Card for each project -->
     <div class="timeline-container">
       <div class="head">
-        <h2 class="title">{{key.name}}</h2>
-        <!-- <h3 class="details">{{key.project.univ}}</h3> -->
+        <h2 class="title">Project Name: {{ project_data.name }}</h2>
       </div>
       <ul class="list-updates">
-        {%for msg,date in value%}
+        <!-- Feed items for this project -->
+        {% for msg, date in project_data.feed %}
         <li class="update">
-          <span class="time">{{date}}</span>
-          <p>{{msg}}</p>
+          <span class="time">{{ date }}</span>
+          <p>{{ msg }}</p>
         </li>
-        {%endfor%}
-        <!-- <li class="update">
-          <span class="time">16:13</span>
-          <p>Add Some new products, and change prices.</p>
-        </li>
-        <li class="update">
-          <span class="time">13:35</span>
-          <p>Make Discounts in more than 15 products.</p>
-        </li>
-      </ul> -->
+        {% endfor %}
+      </ul>
       <div class="all-updates">
-        <a href=""><button class="all" >Show All Updates</button></a>
+        <a href="{% url 'updates' pk=pk %}"><button class="all" >Show All Updates</button></a>
       </div>
     </div>
-    
-    {%endfor%}
+    {% endfor %}
 
     
     <div class="timeline-container">
