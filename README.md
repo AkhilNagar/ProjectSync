@@ -1,5 +1,11 @@
 # SIH-HexaByte
 
+<h1 align="center">
+
+  Split-Facewise
+  <br>
+</h1>
+
 Problem Id: 1369
 
 Title: Online integrated platform for projects taken up by the students of various universities/colleges
@@ -18,3 +24,79 @@ Proposed Solution:
 8) It'll help students learn and build over the current approaches that already exist.
 9) The platform will allow collaboration inter-college hence creating a strong community of passionate coders.
 10) A blog/communication platform for students to come together for ideation and networking opportunities.
+
+
+
+
+# Pre-Requisites
+
+> **Note**
+>For Windows insallation only
+<br>
+
+To clone and run this application, you'll need [Git](https://git-scm.com) and python installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/AkhilNagar/Split-facewise.git
+
+
+# Create a Virtual Env
+$ virtualenv2 --no-site-packages env
+
+# Activate the Environment
+$ source env/bin/activate
+
+# Install cmake
+$ pip install cmake
+
+# Install Dlib
+$ pip install dlib
+#Dlib package is present in the repository
+$ pip install https://github.com/AkhilNagar/Split-facewise/blob/master/dlib-19.19.0-cp38-cp38-win_amd64.whl
+
+# Install all other Requirements
+$pip install requirements.txt
+
+
+
+```
+
+# Run Django
+
+```bash
+# Activate the Environment
+$ source env/bin/activate
+
+# Change Directory to Project folder
+(env)$ cd Splitwise
+
+#Run Django Server on localhost
+(env)$ python manage.py runserver
+
+Navigate to [localhost](http://127.0.0.1:8000/)
+```
+
+
+# User Interface
+
+<h2>Home Page </h2>
+
+![screenshot](https://github.com/AkhilNagar/Split-facewise/blob/master/Screenshots/homepage.png)
+
+<h2>Profile Page </h2>
+
+![screenshot](https://github.com/IshikaDe-2803/SIH-HexaByte/master/Screenshots/Profile.png)
+
+<h2>Explore Page </h2>
+
+![screenshot](https://github.com/AkhilNagar/Split-facewise/blob/master/Screenshots/Explore.png)
+
+<h2>Personalised Automated Feed </h2>
+
+![screenshot](https://github.com/IshikaDe-2803/SIH-HexaByte/master/Screenshots/Feed.png)
+
+<h2>Upload Project </h2>
+
+![screenshot](https://github.com/IshikaDe-2803/SIH-HexaByte/master/Screenshots/UploadProject.png)
+
