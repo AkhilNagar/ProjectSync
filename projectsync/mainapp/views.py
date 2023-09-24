@@ -376,7 +376,11 @@ def webhook(request):
                 print(f"Commit Message: {commit_message}.")
                 webhook_msg += f"Commit Message: {commit_message}."
     
-    project_obj = Project.objects.filter(url__contains=data['repository']['name'])
+    try:
+        project_obj = Project.objects.get(url__contains=data['repository']['name'])
+    except Project.DoesNotExist:
+        # Handle the case where the project is not found.
+        project_obj = None
     feed_obj = Feed(project=project_obj, message=webhook_msg)
     feed_obj.save()
     return JsonResponse({"message": "Received"})
