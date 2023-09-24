@@ -28,7 +28,7 @@
 
   /* Style for the modal content */
   .modal-content {
-      background-color: white;
+      background-color: #E0E1DD !important;
       padding: 20px;
       border-radius: 5px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
@@ -41,6 +41,7 @@
       right: 10px;
       cursor: pointer;
   }
+
 </style>
 
 <link rel="stylesheet" href="{% static 'css/projectDetails.css' %}" />
@@ -110,7 +111,10 @@
               <h2>Announcement</h2>
               <form method="POST" action="{% url 'create_announcement' project.id %}">
                   {% csrf_token %}
-                  <textarea name="announcement_message" rows="4" placeholder="Enter your announcement here..."></textarea>
+                  <div class="form-group">
+                    <label for="announcement_message">Make Announcement</label>
+                    <input type="text" class="form-control" id="announcement_message" name="announcement_message" placeholder="Make Announcement">
+                  </div>
                   <br>
                   <button type="submit">Save</button>
               </form>
@@ -131,6 +135,54 @@
           // Attach a click event listener to the "Announcement" button
           document.getElementById('openAnnouncementModal').addEventListener('click', openAnnouncementModal);
         </script>
+
+          <button id="openEditModal" class="btn td-btn outline green mb-30" title="Project Title">
+            <span class="glyphicon glyphicon-edit"></span>Edit Project Details
+          </button>
+
+          <!-- The modal for the announcement -->
+        <div id="editModal" class="modal-background">
+          <div class="modal-content">
+              <span class="close-button" onclick="closeEditModal()">&times;</span>
+              <h2>Edit Project Details</h2>
+              <form method="POST" action="{% url 'edit_project' project.id %}">
+                  {% csrf_token %}
+
+                  <div class="form-group">
+                    <label for="project_name">Project Name</label>
+                    <input type="text" class="form-control" id="project_name" name="project_name" placeholder="Edit Project Name">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="project_summary">Project Summary</label>
+                    <input type="text" class="form-control" id="project_summary" rows="4" name="project_summary" placeholder="Edit Project Summary">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="project_url">GitHub Link</label>
+                    <input type="text" class="form-control" id="project_url" rows="4" name="project_url" placeholder="Edit Project URL">
+                  </div>
+                                    
+                  <br>
+                  <button type="submit">Save</button>
+              </form>
+          </div>
+        </div>
+
+          <script>
+            // Function to open the announcement modal
+            function openEditModal() {
+                document.getElementById('editModal').style.display = 'block';
+            }
+  
+            // Function to close the announcement modal
+            function closeEditModal() {
+                document.getElementById('editModal').style.display = 'none';
+            }
+  
+            // Attach a click event listener to the "Announcement" button
+            document.getElementById('openEditModal').addEventListener('click', openEditModal);
+          </script>
 
           {% else %}
           <a

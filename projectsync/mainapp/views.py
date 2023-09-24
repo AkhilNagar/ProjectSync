@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from .forms import UserForm, ProjectFilterForm
 from django.db.models import DateTimeField
@@ -52,6 +52,31 @@ def create_announcement(request, project_id):
             Feed.objects.create(project=project, message=message)
             return redirect('projectDetails', pk = project_id)
         
+    return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags, 'comments': comments, 'current_user': current_user, 'isContributor': isContributor})
+
+def edit_project(request, project_id):
+    project = Project.objects.get(pk=project_id)
+    contributors = project.contributors.all()
+    tags = project.tags.all()
+    current_user = request.user
+    isContributor = True
+    comments = Comment.objects.filter(project=project)
+    if request.method == 'POST':
+        project_name = request.POST.get('project_name')
+        project_summary = request.POST.get('project_summary')
+        project_url = request.POST.get('project_url')
+        if project_summary:
+            project.summary = project_summary
+            
+        if project_name:
+            project.name = project_name
+
+        if project_url:
+            project.url = project_url
+            
+        project.save()    
+        return redirect('projectDetails', pk = project_id)
+    
     return render(request, 'projectDetails.html', {'project' : project, 'contributors': contributors, 'tags': tags, 'comments': comments, 'current_user': current_user, 'isContributor': isContributor})
 
 def studentprofile(request):
@@ -209,6 +234,45 @@ def uploadProjects(request):
         print(current_user_uni)
         return render(request, 'uploadForm.html', {'domain_tags': domain_tags, 'universities': universities, 'student_list': student_emails, 'current_user_uni': current_user_uni})
 
+
+def updateproject(request, project_id):
+    projectobj = Project.objects.get(pk=1)
+    
+    if request.method=='POST':
+        # Fetch Details from HTML
+        title = request.POST['project_title']
+        project_summary = request.POST['project_summary']
+        uni_name = request.POST['uni_name']
+        domain_tags = request.POST.getlist('tags')
+        collaborator_list = request.POST.get('collaborator_list')
+        github_link = request.POST['github_link']
+        
+        university = University.objects.get(name=uni_name)
+        tags = Tags.objects.filter(name__in=domain_tags)
+        collaborator_list = collaborator_list.split(',')
+        collaborator_list.append(request.user.email)
+        print(collaborator_list)
+        contributors = Student.objects.filter(user__email__in=collaborator_list)
+        plagiarism_score = 0 # Fetch using API
+
+        # Save data in DB
+        project_obj = Project(name=title, univ=university, summary=project_summary, url=github_link, plag_score=plagiarism_score)
+        project_obj.save()
+
+        project_obj.tags.set(tags)
+        project_obj.contributors.set(contributors)
+        
+        return redirect('explore')
+    else:
+        domain_tags = Tags.objects.all()
+        universities = University.objects.all()
+        students = Student.objects.all()
+        student_emails = ','.join([student.user.email for student in students])
+
+        current_student = Student.objects.get(user=request.user)
+        current_user_uni = current_student.college.name
+        print(current_user_uni)
+        return render(request, 'exploreProjects.html')
 
 def univhome(request):
 

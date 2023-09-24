@@ -10,3 +10,4 @@ class UserForm(forms.ModelForm):
 class ProjectFilterForm(forms.Form):
     tag = forms.ModelChoiceField(queryset = Tags.objects.all(), empty_label="All tags", required=False)
     search = forms.CharField(max_length=100, required=False)
+
